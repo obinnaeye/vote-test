@@ -127,3 +127,12 @@ input{
   position: relative;
   left:300px;
 }
+
+/*******************************LOGIN************************************************/
+.login-container{
+  width: 500px;
+  height: 350px;
+  background: none;
+  margin: 0 auto;
+  
+}

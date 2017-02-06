@@ -1,6 +1,6 @@
 <html ng-app="clementineApp">
    <head>
-      <title>Voting King</title>
+      <title>Clementine.js - The elegant and lightweight full-stack boilerplate.</title>
       <link href="/public/css/main.css" rel="stylesheet" type="text/css">
    </head>
 
@@ -12,9 +12,9 @@
        <div class="header-tools">
          <a href="/"><button id="home">Home</button></a>
          <a href="/:username/about"><button id="about">About</button></a>
-         <a href="/guest/login"><button id="login">Log In</button></a>
-         <a href="/guest/signup"><button id="singup">Sign Up</button></a>
-         <a href="/guest/polls"><button id="polls">Polls</button></a>
+         <a href="/user/logout"><button id="logout">Sign out</button></a>
+         <a href="/:username/profile"><button id="profile">Profile</button></a>
+         <a href="/:username/polls"><button id="polls">Polls</button></a>
        </div>
      </div>
      <div class="polls" id="pollView"></div>
@@ -24,6 +24,6 @@
      <div class="poll-link"></div>
      
      <script type="text/javascript" src="/common/ajax-functions.js"></script>
-     <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
+     <script type="text/javascript" src="/controllers/navController.home.js"></script>
    </body>
 </html>

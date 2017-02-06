@@ -13,10 +13,9 @@
        </div>
        <div class="header-tools">
          <a href="/"><button id="home">Home</button></a>
-         <a href="/guest/about"><button id="about">About</button></a>
-         <a href="/guest/login"><button id="login">Log In</button></a>
-         <a href="/guest/signup"><button id="singup">Sign Up</button></a>
-         <a href="/guest/polls"><button id="polls">Polls</button></a>
+         <a href="/:username/about"><button id="about">About</button></a>
+         <a href="/user/logout"><button id="logout">Sign out</button></a>
+         <a href="/:username/profile"><button id="profile">Profile</button></a>
        </div>
      </div>
      <div class="poll-container">
@@ -24,25 +23,24 @@
        <div class="poll-main">
          <div class="poll-pane">
            <h3 class="poll-pane-head">Polls</h3>
-           <div class="poll-pane-polls" id="pollView"></div>
+           <div class="poll-pane-polls"></div>
          </div>
          <div class="poll-view">
-           <h4 class="poll-view-head" id="viewHead">The Name of Poll as created by the user</h4>
-           <select name="candidates" required class="poll-selection" id="pollSelection">
+           <h4 class="poll-view-head">The Name of Poll as created by the user</h4>
+           <select name="candidates" required class="poll-selection">
              <option value="" disabled selected hidden>Select Whom to vote for...</option>
-             
-                 <option value="King">King</option>
-                 <option value="saab">Saab</option>
-                 <option value="fiat">Fiat</option>
-                 <option value="audi">Audi</option>
-            
+             <option value="King">King</option>
+             <option value="saab">Saab</option>
+             <option value="fiat">Fiat</option>
+             <option value="audi">Audi</option>
+             <option value="audi">Add Your Own Option</option>
            </select>
+           <input type="text" id="ownOption">
            <input type="submit">
-           <div class="poll-view-chart" id="viewChart"></div>
+           <div class="poll-view-chart"></div>
          </div>
        </div>
      </div>
-     <script type="text/javascript" src="/common/ajax-functions.js"></script>
-     <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
+     <script type="text/javascript" src="/controllers/clickController.client.js"></script>
    </body>
 </html>

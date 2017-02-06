@@ -3,6 +3,8 @@
 //manipulate dom
 
 (function () {
+   
+   var id = "";
   
    var viewChart = document.querySelector('#viewChart');
    var viewHead = document.querySelector('#viewHead');
@@ -13,9 +15,8 @@
    var logoutButton = document.querySelector('#logout');
    var pollDiv = document.querySelector("#pollView");
    var authApiUrl = appUrl + '/api/:id/polls';
-   var apiUrl = appUrl + '/api/poll';
+   var apiUrl = appUrl + '/api/polls';
    
-   console.log(pollSelection);
    
    //used to populate polls in any polls-view
    function getPolls (data) {
@@ -23,12 +24,14 @@
       //return polls;
       var innerHtml = ""
       polls.forEach(function(pol, ind){
-          var html = "<a href= /polls/" +pol.name + "><div class='poll-link'>" + pol.name + " by: " + pol.author + "</div></a>";
-          innerHtml += html;
+         if (pol.name){
+            var html = "<a href= /polls/" +pol.name + "><div class='poll-link'>" + pol.name + " by: " + pol.author + "</div></a>";
+            innerHtml += html;
+         }
+          
       })
       
       pollDiv.innerHTML=innerHtml;
-      ajaxFunctions.ajaxRequest('GET', "https://voting-test-obinnaeye.c9users.io/api/polls/one", displayPoll);
    }
    
    function displayPoll(data){
@@ -43,8 +46,7 @@
       pollSelection.innerHTML = innerHtml;
       viewChart.innerHTML = poll.options[0].name;
       viewHead.innerHTML = poll.options[0].name;
-      console.log(poll.options)
-      
+      console.log(poll.options);
    };
    
     

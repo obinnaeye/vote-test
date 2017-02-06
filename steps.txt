@@ -1,0 +1,14 @@
+Authenticate the api, and return user info to display on view
+If user, add user advantages, else send normal stuffs
+Routes that need special advantages are
+    poll ... add options, create poll, delete poll, logout, profile
+    home ... logout, new poll, my polls, profile
+    
+
+Checks
+    req.session.passport.user
+
+tidy redirect to username/polls or /guest/polls
+return user to current page after auth and sign out
+show 404.html page when page does not exist
+use subStr to return the path of window.location

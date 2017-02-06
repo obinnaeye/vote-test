@@ -13,7 +13,7 @@
    var logoutButton = document.querySelector('#logout');
    var pollDiv = document.querySelector("#pollView");
    var authApiUrl = appUrl + '/api/:id/polls';
-   var apiUrl = appUrl + '/api/poll';
+   var apiUrl = appUrl + '/api/polls';
    
    //used to populate polls in any polls-view
    function getPolls (data) {
@@ -21,8 +21,10 @@
       //return polls;
       var innerHtml = ""
       polls.forEach(function(pol, ind){
-          var html = "<a href= /polls/" +pol.name + "><div class='poll-link'>" + pol.name + " by: " + pol.author + "</div></a>";
-          innerHtml += html;
+          if (pol.name){
+            var html = "<a href= /polls/" +pol.name + "><div class='poll-link'>" + pol.name + " by: " + pol.author + "</div></a>";
+            innerHtml += html;
+         }
       })
       
       pollDiv.innerHTML=innerHtml;
@@ -30,9 +32,10 @@
    
    function displayPoll(data){
       var poll = JSON.parse(data);
-      pollSelection.innerHTML = "<option value="+ poll.options[0].name + ">" + poll.options[0].name +"</option>";
-      viewChart.innerHTML = poll.options[0].name;
-      viewHead.innerHTML = poll.options[0].name;
+      var options = poll.options[1];
+      pollSelection.innerHTML = "<option value="+ options.name + ">" + options.name +"</option>";
+      viewChart.innerHTML = options.name;
+      viewHead.innerHTML = options.name;
       
    };
    
@@ -57,7 +60,7 @@ for (var i = 0; i < classname.length; i++) {
 
    //pollLink.addEventListener('click', , false);
    
-   pollsButton.addEventListener('click', function () {
+   pollsButton.addEventListener('mouseover', function () {
       var pollContainer = document.getElementsByClassName("polls display");
        pollDiv.style.display= pollContainer.length===0? "block" : "none";
        pollDiv.className= pollContainer.length===0? "polls display" : "polls";
