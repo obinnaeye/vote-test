@@ -5,10 +5,8 @@ Routes that need special advantages are
     home ... logout, new poll, my polls, profile
     
 
-Checks
-    req.session.passport.user
-
 tidy redirect to username/polls or /guest/polls
 return user to current page after auth and sign out
 show 404.html page when page does not exist
 use subStr to return the path of window.location
+adding a new poll should flash a success message or error message

@@ -74,7 +74,7 @@ module.exports = function(app, passport){
     app.route("/api/session")
         .get(function(req, res){
             req.session.pathUrl =req.query.pathUrl;
-            res.send("All is well");
+            res.send(req.session.pathUrl);
         });
         
         
@@ -82,7 +82,7 @@ module.exports = function(app, passport){
     app.route('/user/logout')
         .get(function (req, res) {
             req.logout();
-            res.redirect("/guest");
+            res.redirect(req.session.pathUrl);
     });
     
     // authenticate user on github

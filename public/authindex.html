@@ -12,9 +12,10 @@
        <div class="header-tools">
          <a href="/"><button id="home">Home</button></a>
          <a href="/:username/about"><button id="about">About</button></a>
-         <a href="/user/logout"><button id="logout">Sign out</button></a>
+         <a ><button id="logout">Sign out</button></a>
          <a href="/:username/profile"><button id="profile">Profile</button></a>
          <a href="/:username/polls"><button id="polls">Polls</button></a>
+         <button id="create">Create Poll</button>
        </div>
      </div>
      <div class="polls" id="pollView"></div>
@@ -24,6 +25,6 @@
      <div class="poll-link"></div>
      
      <script type="text/javascript" src="/common/ajax-functions.js"></script>
-     <script type="text/javascript" src="/controllers/navController.home.js"></script>
+     <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
    </body>
 </html>
