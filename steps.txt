@@ -10,3 +10,4 @@ return user to current page after auth and sign out
 show 404.html page when page does not exist
 use subStr to return the path of window.location
 adding a new poll should flash a success message or error message
+check out http://jsfiddle.net/marsone/SpWwa/ for select background change

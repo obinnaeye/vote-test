@@ -1,44 +1,55 @@
 
 <html ng-app="clementineApp">
    <head>
-      <title>Clementine.js - The elegant and lightweight full-stack boilerplate.</title>
+      <title>VotingKing</title>
       <link href="http://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet" type="text/css">
       <link href="/public/css/main.css" rel="stylesheet" type="text/css">
    </head>
 
    <body>
      <div class="header">
-       <div class="title">
-         <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
-       </div>
-       <div class="header-tools">
-         <a href="/"><button id="home">Home</button></a>
-         <a href="/guest/about"><button id="about">About</button></a>
-         <a href="/guest/login"><button id="login">Log In</button></a>
-         <a href="/guest/signup"><button id="singup">Sign Up</button></a>
-         <a href="/guest/polls"><button id="polls">Polls</button></a>
+       <div class="header-inside">
+         <div class="title">
+             <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
+         </div>
+         <div class="header-tools">
+            <a href="/"><button id="home">Home</button></a>
+            <a href="/guest/about"><button id="about">About</button></a>
+            <a href="/guest/login"><button id="login">Log In</button></a>
+            <a href="/guest/signup"><button id="singup">Sign Up</button></a>
+            <a href="/guest/polls"><button id="polls">Polls</button></a>
+         </div>
        </div>
      </div>
      <div class="poll-container">
        <h3 class="poll-header">Available Polls</h3>
        <div class="poll-main">
          <div class="poll-pane">
-           <h3 class="poll-pane-head">Polls</h3>
-           <div class="poll-pane-polls" id="pollView"></div>
+           <div class = "poll-pane-header">
+             <h3 class="poll-pane-head">Polls</h3>
+           </div>           
+           <div class="poll-pane-body">
+             <div class="poll-pane-polls">
+               uafafafa
+             </div>
+           </div>
          </div>
          <div class="poll-view">
-           <h4 class="poll-view-head" id="viewHead">The Name of Poll as created by the user</h4>
-           <select name="candidates" required class="poll-selection" id="pollSelection">
-             <option value="" disabled selected hidden>Select Whom to vote for...</option>
-             
-                 <option value="King">King</option>
-                 <option value="saab">Saab</option>
-                 <option value="fiat">Fiat</option>
-                 <option value="audi">Audi</option>
-            
-           </select>
-           <input type="submit">
-           <div class="poll-view-chart" id="viewChart"></div>
+           <h4 class="poll-view-head">The Name of Poll as created by the user</h4>
+           <div class="poll-view-body">
+             <div class="poll-view-selection">
+                <p class="poll-view-desc">I want tht description to be here and nothing more than that.</p>
+                <select name="candidates" required class="poll-selection">
+                   <option value="" disabled selected hidden>Select Whom to vote for...</option>
+                   <option value="King">King</option>
+                   <option value="saab">Saab</option>
+                   <option value="fiat">Fiat</option>
+                   <option value="audi">Audi</option>
+                </select><br>
+                <input type="submit" class="submit-vote" value="VOTE">
+             </div>
+             <div class="poll-view-chart"></div>
+           </div>           
          </div>
        </div>
      </div>
