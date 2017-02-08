@@ -80,7 +80,8 @@ function PollHandler () {
         selection = '<select name="candidates" required class="poll-selection" id="pollSelection">',
                 
         selection2 ='</select><input type="submit"><div class="poll-view-chart" id="viewChart"></div></div></div></div>',
-        scripts = '<script type="text/javascript" src="/common/ajax-functions.js"></script>'+
+        scripts = '<script src="https://www.gstatic.com/charts/loader.js"></script>'+
+                '<script type="text/javascript" src="/common/ajax-functions.js"></script>'+
                 '<script type="text/javascript" src="/controllers/navController.polls.js"></script>';
         
                 

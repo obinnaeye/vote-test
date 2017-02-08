@@ -6,23 +6,23 @@
 
    <body>
      <div class="header">
-       <div class="title">
-         <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
-       </div>
-       <div class="header-tools">
-         <a href="/"><button id="home">Home</button></a>
-         <a href="/:username/about"><button id="about">About</button></a>
-         <a href="/guest/login"><button id="login">Log In</button></a>
-         <a href="/guest/signup"><button id="singup">Sign Up</button></a>
-         <a href="/guest/polls"><button id="polls">Polls</button></a>
+       <div class="header-inside">
+         <div class="title">
+             <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
+         </div>
+         <div class="header-tools">
+            <a href="/"><button id="home">Home</button></a>
+            <a href="/guest/about"><button id="about">About</button></a>
+            <a href="/guest/login"><button id="login">Log In</button></a>
+            <a href="/guest/signup"><button id="singup">Sign Up</button></a>
+            <a href="/guest/polls"><button id="polls">Polls</button></a>
+         </div>
        </div>
      </div>
      <div class="polls" id="pollView"></div>
      <div class="image">
-       <img src="http://globeotter.com/wp-content/uploads/2012/08/banner.png">
+       <img src="http://globeotter.com/wp-content/uploads/2012/08/banner.png" class="body-image">
      </div>
-     <div class="poll-link"></div>
-     
      <script type="text/javascript" src="/common/ajax-functions.js"></script>
      <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
    </body>
