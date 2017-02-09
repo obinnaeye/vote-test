@@ -68,7 +68,7 @@ module.exports = function(app, passport){
         .get(pollHandler.getOnePoll);
         
     app.route("/api/votes")
-        .get(pollHandler.getVotes)
+        .get(pollHandler.addVote)
         .post(pollHandler.addVote);
     
     app.route("/api/session")
