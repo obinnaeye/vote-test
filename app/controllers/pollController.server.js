@@ -217,10 +217,23 @@ function PollHandler () {
      //add vote here
     this.addVote = function (req, res) {
         var voteID = req.query.voteid;
-        
         Polls.findOneAndUpdate({"options._id" : voteID}, {$inc : {"options.$.vote" : 1}}, { new: true }, function(err, doc){
             if(err){console.log(err)}
-            res.send(doc);
+            res.json(doc);
+        })
+    };
+    
+    this.newOption = function (req, res) {
+        var pollID = req.query.pollid,
+            option = req.query.option,
+            optionObj = {
+                name : option,
+                vote: 1
+            };
+        
+        Polls.findOneAndUpdate({"_id" : pollID}, {$push : {"options" : optionObj}}, { new: true }, function(err, doc){
+            if(err){console.log(err)}
+            res.json(doc);
         })
     };
     

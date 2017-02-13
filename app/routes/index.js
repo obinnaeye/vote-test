@@ -70,6 +70,10 @@ module.exports = function(app, passport){
     app.route("/api/votes")
         .get(pollHandler.addVote)
         .post(pollHandler.addVote);
+        
+    app.route("/api/newoption")
+        .get(pollHandler.newOption)
+        .post(pollHandler.newOption);
     
     app.route("/api/session")
         .get(function(req, res){

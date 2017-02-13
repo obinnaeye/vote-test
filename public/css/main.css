@@ -6,6 +6,7 @@
   top: 0;
   left: 0;  
   color: #6C3483;
+  z-index : 1;
 }
 
 .header-inside{
@@ -19,111 +20,142 @@
 }
 
 .title{
-  width: 550px;
-  margin-left: 30px
+  width: 600px;
+  margin-left: 50px
 }
 
 .header-tools{
   height: 30px;
-  width: 650px;
+  width: 600px;
   padding: 10px;
   top: 5px;
   right: 30px; 
-  display: flex;  
+  display: flex;
 }
-
 .polls{
   width: 300px;
   height: 200px;
   background: red;
-  display: none;
   position: fixed;
   right: 20px;
   top: 70px;
 }
-
 button{
-  color: grey;
+  color: #4A235A;
   padding: 5px;
   margin-right: 10px;
   width: 100px;
   background: none;
   border: none;
-  cursor: pointer;  
+  cursor: pointer;
+  font-family: 'Marck Script', cursive;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 button:hover{
-  border-bottom: 2px solid #6C3483;
+  border-bottom: 2px solid #F39C12;
 }
 
 .image{
-  width:1200px;
-  height: auto;
+  width:100%;
+  height: 100vh;
+  display: block;
   margin: 0 auto;
-  background: none;
+  background: red;
 }
 
-.body-image{
-  width: 1200px;
+img{
+  
 }
 
-/**********************POLLS************************************/
-
-.poll-header{
-  text-align: center;
-  color: darkblue;
-  margin-top: 100px;
-}
 
 .poll-main{
-  margin: 0 auto 30px;
+  margin: 70px auto 30px;
   display: flex;
   align-contents: center;
   width: 1200px;
-  background: black;
-  color: white;
+  background: white;
   height: auto;
 }
 .poll-pane{
   width: 300px;
-  height: 500px;
-  background: red;  
+  height: 600px;
+  background: #4A235A;  
 }
 .poll-pane-head{
   text-align: center;
   text-decoration: underline;
-  background: black;
+  color: white;
+  padding: 30px;
+  background: #4A235A;
+  font-family: 'Khand', sans-serif;
+  letter-spacing: 2px;
+  font-size: 15px;
 }
 .poll-pane-body{
   width: 300px;
-  height: 400px;
+  height: 460px;
   overflow: auto;
+  background: #F5B041;
 }
 .poll-pane-polls{
-  height:800px;
-  background: green;
+  max-height:460px;
+  background: #F5B041;
   padding: 10px;
+  color: #6C3483;
+  margin: 0px;
+}
+span{
+  font-style: italic;
+  font-family: 'Poiret One', cursive;
+}
+.poll-ref{
+  cursor: pointer;
+  padding: 10px 5px;
+  border-bottom: 1px dotted white;
+}
+
+.active{
+  background-color: #F39C12;
+  font-weight: bold;
 }
 .poll-view{
-  padding: 10px;
+  padding: 0px;
   width: 900px;
+  background: #F39C12;
 }
 
 .poll-view-head{
   text-align: center;
+  background: #F39C12;
+  color: white;
+  padding: 30px;
+  font-family: 'Khand', sans-serif;
+  letter-spacing: 2px;
+  font-size: 15px;
+
 }
 .poll-view-body{
   display: flex;
+  background: #F39C12;
 }
 .poll-view-selection{
   width: 250px;
-  height: 400px;
+  height: 460px;
+  background: #5B2C6F; 
+}
+#addOption{
+  font-weight: bold;
 }
 .poll-view-desc{
   width: 200px;
   height: auto;
   text-align: center;
-  margin: 0 25px;
+  margin: 20px 25px 10px;
+  color: white;
+  font-family: 'Josefin Slab', serif;
+  font-size: 20px;
 }
 
 select{
@@ -141,34 +173,95 @@ select option:hover{
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  font-size: 20px;
-  border: 5px solid red;
+  font-size: 30px;
+  border: 5px solid white;
   outline: none;
   cursor: pointer;
+  font-family: 'Khand', sans-serif;
+  letter-spacing: 2px;
+  border-top-color: green;
+  border-bottom-color: green;
+  background: white;
 }
 
 .submit-vote:hover{
-  background: grey;
+  background: #A9DFBF;
 }
 .submit-vote:active{
   width: 90px;
   height: 90px;
   margin: 35px 80px;
-  background: grey;
+  background: #F4F6F6;
+}
+
+.poll-view-chartArea{
+  background: #B3B6B7;
+  width: 650px;
+  height: 460px;
+}
+
+.poll-view-chartTitle{
+  background: white;
+  width: 650px;
+  height: auto;
+  color: black;
+  text-align: center;
+  font-family: 'Special Elite', cursive;
+  font-size: 20px;
+  padding: 10px;
+  margin: 6px auto;
 }
 
 .poll-view-chart{
-  background: white;
-  width: 600px;
-  height: 400px;
-  position: relative;
+  background: #B3B6B7;
+  width: 650px;
+  height: 320px;
 }
 
-/*******************************LOGIN************************************************/
-.login-container{
-  width: 500px;
-  height: 350px;
-  background: none;
+/* Own Option */
+.add-option, create-poll{
+  width: 600px;
+  height: 200px;
+  background: #D0D3D4;
+  padding: 30px;
+  position: fixed;
+  z-index: 2;
+  left: 350px;
+  top: 180px;
+  border-radius: 10px;
+  opacity: 0.9;
+  display: none;
+}
+
+.new-option{
+  margin: 20px auto;
+  width: 400px;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+.new-option input{
+  width: 300px;
+  height: 30px;
+  font-size: 20px;
+}
+#optionWarning{
+  width: 580px;
   margin: 0 auto;
-  
+  text-align : center;
+  color: red;
+  margin-bottom: 5px;
+}
+.new-option-btns{
+  width: 450px;
+  height: 30px;
+  text-align: center;
+  margin: 0 auto;  
+}
+.new-option-btns input{
+  width: 200px;
+  height: 30px;
+  background: #4A235A;
+  color: white;
 }
