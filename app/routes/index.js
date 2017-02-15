@@ -61,7 +61,8 @@ module.exports = function(app, passport){
 //check for queries and return json api is q is given
     app.route("/api/polls-array")
         .get(pollHandler.getPolls)
-        .post(isLoggedIn, pollHandler.addPoll)
+        .post(pollHandler.addPoll)
+        //.post(isLoggedIn, pollHandler.addPoll)
         .delete(isLoggedIn, pollHandler.deletePoll);
         
     app.route("/api/poll")

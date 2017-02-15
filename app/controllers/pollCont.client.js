@@ -1,13 +1,13 @@
 
-
-//set the global variables here
-var appUrl = window.location.origin;
+//var appUrl = window.location.origin;
 
 (function () {
+//set the semi-global variables here
 var pollID = "";
 var pollClick = "";
 var addOption = "";
 var status = "";
+var globalPoll;
 
 var chartOptions = {
       'width':650,
@@ -19,44 +19,52 @@ var chartOptions = {
 google.charts.setOnLoadCallback(loadPolls);
 google.charts.setOnLoadCallback(updateChart);
 
-var ajaxFunctions = {
-   ready: function ready (fn) {
-      if (typeof fn !== 'function') {
-         return;
-      }
 
-      if (document.readyState === 'complete') {
-         return fn();
-      }
+//use replacer function to deal with spaces in stringify 
+  //to be used as poll attribute
+function replacer(key, value) {
+    // Filtering out properties
+    if (typeof value === 'string') {
+        var arr = value.split(" ");
+        var str = arr.join("---")
+        return str;
+    }
+    return value;
+ }
 
-      document.addEventListener('DOMContentLoaded', fn, false);
-   },
-   ajaxRequest: function ajaxRequest (method, url, callback) {
-      var xmlhttp = new XMLHttpRequest();
 
-      xmlhttp.onreadystatechange = function () {
-         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            callback(xmlhttp.response);
-         }
-      };
+//use reviver to remove "---" added in stringify
+function reviver(key, value){
+    
+    if (typeof value === "string"){
+      var str = value.replace(/---/g, " ");
+      return str;
+    }
+    return value
+  }
 
-      xmlhttp.open(method, url, true);
-      xmlhttp.send();
-   }
-};
+function addEventToClass (klass){
+  //add click event to each of the polls in the pane
+    for (var i=0; i<klass.length; i++){
+      var pollClass = klass[i];
+      pollClass.addEventListener('click', openPoll, false);
+    }
+}
 
-function loadPolls (result){    
+function loadPolls (result){
     var poll = JSON.parse(result);
+    globalPoll = poll;
     var pollHtml = "";
     var optionHtml = '<option value="" disabled selected hidden>Select Whom to vote for...</option>';
     
     //populate polls
     var index = poll[0].username? 1 : 0;
-    var firstPoll = poll[index];
+    var firstPoll = poll[index]; 
+  
     while (index < poll.length){
       var currentPoll = poll[index],
-          pollString = JSON.stringify(currentPoll);      
-      pollHtml += '<li class="poll-ref" id =' + currentPoll._id + ' poll=' + pollString +'>' + currentPoll.name + ':<span> by ' + currentPoll.author + '</span>' +'</li>';      
+          pollString = JSON.stringify(currentPoll, replacer);
+      pollHtml += '<li class="poll-ref" id =' + currentPoll._id + ' poll=' + pollString +' >' + currentPoll.name + ':<span> by ' + currentPoll.author + '</span></li>';      
       index++;
     }  
     
@@ -94,14 +102,15 @@ function loadPolls (result){
     document.getElementById("pollSelection").addEventListener('change', addOptionDisplay, false);
     
     //add click event to each of the polls in the pane
-    for (var i=0; i<pollClick.length; i++){
+  addEventToClass (pollClick)
+    /* for (var i=0; i<pollClick.length; i++){
       var pollClass = pollClick[i];
       pollClass.addEventListener('click', openPoll, false);
-    }
+    } */
     
     // Instantiate and draw the chart.    
    var chart = new google.visualization.PieChart(document.getElementById('chart'));
-   chart.draw(data, options);         
+   chart.draw(data, options);
   }
 
 function updateChart(obj){
@@ -137,8 +146,9 @@ function updateChart(obj){
 }
 
 function openPoll(){
-  var poll = this.getAttribute("poll");
-  var pollObj= JSON.parse(poll);
+  var poll = this.getAttribute("poll");  
+  
+  var pollObj= JSON.parse(poll, reviver);
   document.getElementsByClassName("poll-ref active")[0].className = "poll-ref";
   this.className += " active";
   
@@ -163,7 +173,7 @@ function openPoll(){
   document.getElementById("chartTitle").innerHTML = pollObj.name + ': Pie Chart.';
   document.getElementById("pollSelection").innerHTML = optionHtml;
   //update chart with updateChart function above
-  updateChart(poll); 
+  updateChart(JSON.stringify(pollObj)); 
 }
 
 function sendVote(){
@@ -216,6 +226,80 @@ function newOption(){
   }  
 }
 document.getElementById("newOptionOk").addEventListener('click', newOption, false);
+
+//Create New Poll and Add the poll
+var newpollButton = document.getElementById("createPoll");
+function createPoll(){
+  document.getElementById("newPoll").style.display = "block"
+}
+newpollButton.addEventListener('click', createPoll, false);
+
+function cancelCreatePoll(){
+    document.getElementById("newPoll").style.display = "none";
+    document.getElementById("createInputName").value = "";
+    document.getElementById("createInputDesc").value = "";
+    document.getElementById("createInputOptions").value = "";
+    document.getElementById("createPollWarning").innerHTML ="";
+}
+document.getElementById("createPollCancel").addEventListener('click', cancelCreatePoll, false);
+
+//Reset globalPoll variable
+function updatePoll(data){
+  
+  var parsedData = JSON.parse(data);
+  var stringData = JSON.stringify(parsedData, replacer);
+  globalPoll.push(parsedData);  
+  console.log(globalPoll);
+  var newPollList = document.getElementById("poll-list").innerHTML;
+  newPollList += '<li class="poll-ref" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
+  
+  //document.getElementById("poll-list").appendChild(newPollList)
+  document.getElementById("poll-list").innerHTML = newPollList;
+  pollClick = document.getElementsByClassName("poll-ref");
+  addEventToClass (pollClick)
+}
+
+//add new poll to database
+function addPoll(){
+  var name = document.getElementById("createInputName").value;
+  var title = name.slice(0, 1).toUpperCase() + name.slice(1);
+  var desc = document.getElementById("createInputDesc").value;
+  var options = document.getElementById("createInputOptions").value;
+      
+  var warning = document.getElementById("createPollWarning");
+  
+  var filtered = globalPoll.filter(function(value){return value.name.toLowerCase() === title.toLowerCase()});
+  if (!title.match(/\w/g) || !desc.match(/\w/g) || !options.match(/\w/g)){
+    warning.innerHTML = "Please Fill in All the Info With Valid Characters!"
+  }else if(filtered.length >= 1){
+    warning.innerHTML = "Poll Already exists with the Title. Please choose a different Title!"
+  }else{
+    var optionsArr1 = options.split(/,\W*/g),
+      optionsArr = [];
+  //convert options to array of uppercase first letter
+  optionsArr1.forEach(function(x){
+    var upperCase = x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase();
+    optionsArr.push(upperCase);
+  })
+  
+  
+ var filteredOptions = optionsArr.filter( 
+      function( item, index, inputArray ) {
+        return inputArray.indexOf(item) == index;
+      });
+  options = filteredOptions.join(",")
+  console.log(options);
+    ajaxFunctions.ajaxRequest('POST', appUrl + "/api/polls-array?options=" + options + "&desc=" + desc+ "&name=" + title, updatePoll);
+    
+    //close create poll window
+    document.getElementById("newPoll").style.display = "none";
+    document.getElementById("createInputName").value = "";
+    document.getElementById("createInputDesc").value = "";
+    document.getElementById("createInputOptions").value = "";
+    warning.innerHTML ="";
+  } 
+}
+document.getElementById("createPollOk").addEventListener('click', addPoll, false);
 
 })();
 

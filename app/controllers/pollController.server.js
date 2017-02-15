@@ -24,7 +24,7 @@ function PollHandler () {
             .find({})
             .exec(function (err, result) {
                 if (err) { throw "No such data"; }
-                userCheck(req, res, result);
+                res.json(result);
             });
     };
     
@@ -169,8 +169,8 @@ function PollHandler () {
         var pollObj = new Polls ({
             name: req.query.name,
             description: desc,
-            votes: 0,
-            author: req.query.author,
+            author: "obinnaeye",
+            //author: req.user.github.username,
             options: optionArr
         });
         // CHECK FOR ERROR HERE................../////////////...........
