@@ -10,7 +10,8 @@ var User = new Schema({
         id: String,
         displayName: String,
         username: String,
-        publicRepos: Number
+        publicRepos: Number,
+        profilePicture: Array
     },
    votes: [{pollName:String, votedOption:String}]
 });

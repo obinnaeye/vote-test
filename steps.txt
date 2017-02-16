@@ -3,13 +3,11 @@ If user, add user advantages, else send normal stuffs
 Routes that need special advantages are
     poll ... add options, create poll, delete poll, logout, profile
     home ... logout, new poll, my polls, profile
-    
 
-tidy redirect to username/polls or /guest/polls
-return user to current page after auth and sign out
 show 404.html page when page does not exist
-use subStr to return the path of window.location
+
 adding a new poll should flash a success message or error message
 check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 
+//delete poll should be in the profile
 //deal with warning and ensure they are hidden when correct parameters are entered

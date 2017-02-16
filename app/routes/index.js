@@ -35,9 +35,7 @@ module.exports = function(app, passport){
         });
         
     app.route("/:username/profile")
-        .get(function(req, res){
-            res.send("Sorry! We are currently working on this page!");
-        });
+        .get(pollHandler.viewProfile);
         
     app.route("/guest/login")
         .get(function(req, res){
@@ -81,6 +79,9 @@ module.exports = function(app, passport){
             req.session.pathUrl =req.query.pathUrl;
             res.send(req.session.pathUrl);
         });
+    
+    app.route("/api/userprofile")
+        .get(pollHandler.userDetails);
         
         
 //........................FOR AUTH......................//

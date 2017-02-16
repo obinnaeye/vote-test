@@ -1,5 +1,6 @@
 'use strict';
-
+    //load my env file
+    require('dotenv').load();
     var express = require('express'),
     routes = require('./app/routes/index.js'),
     mongoose = require('mongoose'),
@@ -9,13 +10,13 @@
     var MongoStore = require("connect-mongo")(session);
 
     
-    var MONGODB_URI=process.env.MONGODB_URI;
+    var MONGODB_URI=process.env.MONGO_URI;
     
     var app = express();
-    require('dotenv').load();
+    
     require('./app/config/passport')(passport);
     
-    mongoose.connect("mongodb://localhost:27017/votingapp");
+    mongoose.connect(MONGODB_URI);
     
     app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
     app.use('/public', express.static(process.cwd() + '/public'));

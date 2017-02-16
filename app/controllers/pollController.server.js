@@ -248,6 +248,29 @@ function PollHandler () {
             });
     };
     
+    //handle user's profile page api
+    this.userDetails = function(req, res){
+        if(req.isAuthenticated()){
+            res.json(req.user);
+        }
+        else{
+            res.redirect("/guest/login")
+        }
+    }
+    
+    this.viewProfile = function(req, res){
+        if (req.isAuthenticated()){
+            console.log(req.user.github.username);
+            if (req.user.github.username === req.params.username){
+                res.sendFile(path + "/public/profile.html");
+            }else{
+                res.redirect("/" + req.user.github.username + "/profile");
+            }
+        }else{
+            res.redirect("/guest/login");
+        }
+    };
+    
     /**
     this.deletePoll = function (req, res) {
         //var doc = Polls.polls.name
