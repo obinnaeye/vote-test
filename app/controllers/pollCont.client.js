@@ -94,7 +94,7 @@ function loadPolls (result){
     //Add your own options if you desire
     optionHtml += '<option value="new" id="addOption">Add Your Own Option</option>';
     
-  
+    document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
     document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
     document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
     document.getElementById("pollSelection").innerHTML = optionHtml;

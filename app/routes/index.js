@@ -55,8 +55,7 @@ module.exports = function(app, passport){
         
         
     
-//common root for all requests
-//check for queries and return json api is q is given
+//api routes
     app.route("/api/polls-array")
         .get(pollHandler.getPolls)
         .post(pollHandler.addPoll)
@@ -82,6 +81,12 @@ module.exports = function(app, passport){
     
     app.route("/api/userprofile")
         .get(pollHandler.userDetails);
+        
+    app.route("/api/userpolls")
+        .get(pollHandler.getUserPolls);
+        
+     app.route("/api/deletepoll")
+        .delete(pollHandler.deletePoll);
         
         
 //........................FOR AUTH......................//

@@ -271,18 +271,26 @@ function PollHandler () {
         }
     };
     
-    /**
-    this.deletePoll = function (req, res) {
-        //var doc = Polls.polls.name
-        Polls.polls.update( {}, { $pullAll: {name: [req.query.name] } } )
+    //create get user's own polls here
+    this.getUserPolls = function (req, res) {
+        Polls
+            .find({author : req.query.username})
             .exec(function (err, result) {
-                    if (err) { throw err; }
-
-                    res.json(result.polls);
-                }
-            )
+                if (err) { throw "No such data"; }
+                res.json(result);
+            });
     };
-    **/
+    
+    //delete poll by user
+    this.deletePoll = function (req, res) {
+        Polls.findOneAndRemove({_id : req.query.pollid, author: req.user.github.username}, function(err, doc){
+            if (err) {throw err}
+            else{
+                res.json(doc);
+            }
+        })
+    };
+    
     
     
 }

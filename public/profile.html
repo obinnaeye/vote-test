@@ -13,11 +13,12 @@
          <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
          </div>
          <div class="header-tools">
-           <button>Home</button>
-           <button>About</button>
-           <button>Sign Out</button>
-           <button>Profile</button>
-           <button id="createPoll">Create Poll</button>
+            <a href="/"><button id="home">Home</button></a>
+            <a href="/:username/about"><button id="about">About</button></a>
+            <a ><button id="logout">Sign out</button></a>
+            <a href="/:username/profile"><button id="profile">Profile</button></a>
+            <a href="/:username/polls"><button id="polls">Polls</button></a>
+            <button id="createPoll">Create Poll</button>
          </div>
        </div>
      </div>
@@ -25,21 +26,42 @@
        <div class="profile-pix" id="profilePix"></div>       
        <div class="profile-main">
          <h4 class="profile-name" id = "profileName">Nnenanya O K.</h4>
-         <ul class="profile-poll-list">
-           <li class="profile-poll" id="poll-id">
-             <span id = "profilePollName">Poll Name</span>
-             <button class="profile-poll-btns" id="profilePollView">View</button>
-             <button class="profile-poll-btns" id="profilePollDelete">Delete</button>
+         <ul class="profile-poll-list" id="profilePolls">
+           <li class="profile-poll">
+             <span id="loading">Loading your polls...</span>
+             <!--<button class="profile-poll-btns profile-poll-view">View</button>
+             <button class="profile-poll-btns profile-poll-delete">Delete</button>-->
            </li>           
-           <li class="profile-poll">Sample 1</li>
-           <li class="profile-poll" id="poll-id">Sample 2</li>
-           <li class="profile-poll">Sample 3</li>
+           
          </ul>
+         <div class="delete-warning" id="deleteWarning">
+           <span>Deleting selected poll?</span>
+           <input type="submit" value="Delete" id="deleteWarnPoll">
+           <input type="submit" value="Cancel" id="deleteWarnCancel">
+         </div>
        </div>
+     </div>
+     
+     <div class="create-poll" id="newPoll">
+       <div class="create-poll-name" id="createPollName">
+         Title: <input type ="text" id="createInputName" placeholder="---Your Poll Title; Shorter is Better!---">
+       </div>
+       <div class="create-poll-desc" id="createPollDesc">
+         Description: <input type ="text" id="createInputDesc" placeholder="---Describe Your Poll; What is Your Poll ALl About?---">
+       </div>
+       <div class="create-poll-options" id="createPollOptions">
+         Options: <input type ="text" id="createInputOptions" placeholder="---Add Options Seperated by Commas!---">
+       </div>
+       <p class="create-poll-warning" id="createPollWarning"></p>
+       <div class="create-poll-btns">
+         <input type="submit" id="createPollOk" value="Add Poll">
+         <input type="submit" id="createPollCancel" value="Cancel">
+       </div>       
      </div>
      
      <script type="text/javascript" src="/common/ajax-functions.js"></script>
      <script type="text/javascript" src="/controllers/profileControl.client.js"></script>
+     <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
      
    </body>
 </html>

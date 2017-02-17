@@ -9,5 +9,6 @@ show 404.html page when page does not exist
 adding a new poll should flash a success message or error message
 check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 
-//delete poll should be in the profile
+//handle poll collation for profile and nav buttons
 //deal with warning and ensure they are hidden when correct parameters are entered
+//poll vote button not updating after voting, pls tidy

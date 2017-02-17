@@ -336,6 +336,7 @@ select option:hover{
 .profile-poll-list{
   height: 230px;
   overflow: auto;
+  padding: 0px;
 }
 .profile-poll{
   background: white;
@@ -359,4 +360,20 @@ select option:hover{
 }
 #profilePollDelete{
   color: #943126
+}
+#loading{
+  width: 500px;
+}
+.delete-warning{
+  position: relative;
+  width: 500px;
+  height: 50px;
+  background-color: black;
+  color: white;
+  padding-top: 20px;
+  font-size: large;
+  font-weight: bold;
+  margin: -200px auto;
+  text-align: center;
+  display: none;
 }
