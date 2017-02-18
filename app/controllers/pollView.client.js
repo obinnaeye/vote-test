@@ -14,6 +14,10 @@ module.exports = function pollPage (req, res){
                     var html = "<option value="+ pol+ ">" + pol +"</option>";
                     innerHtml += html;
             })
+            
+            if (req.isAuthenticated()){
+                innerHtml += 
+            }
       
       return innerHtml;
     }

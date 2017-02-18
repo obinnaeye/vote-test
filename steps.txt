@@ -15,3 +15,5 @@ check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 //tidy home page and poll link by id
 //add screen protection
 //description not working on updating
+//handle lengths of text in display eg description title options
+//remember un-auth poll.html

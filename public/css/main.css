@@ -69,7 +69,6 @@ img{
   
 }
 
-
 .poll-main{
   margin: 70px auto 30px;
   display: flex;
@@ -125,6 +124,10 @@ span{
   width: 900px;
   background: #F39C12;
 }
+/************For voting page only************/
+.vote-only{
+  margin: 0 auto;
+}
 
 .poll-view-head{
   text-align: center;
@@ -150,12 +153,13 @@ span{
 }
 .poll-view-desc{
   width: 200px;
-  height: auto;
+  max-height: 100px;
   text-align: center;
   margin: 20px 25px 10px;
   color: white;
   font-family: 'Josefin Slab', serif;
   font-size: 20px;
+  overflow: auto;
 }
 
 select{

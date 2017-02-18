@@ -4,7 +4,7 @@
     var profilePix = document.getElementById("profilePix"),
         diplayName = document.getElementById("profileName"),
         profilePolls = document.getElementById("profilePolls"),
-        createPollButton = document.getElementById("createPoll"),
+        //createPollButton = document.getElementById("createPoll"),
         deletePollID = "";
         
     function userPolls(data){

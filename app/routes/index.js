@@ -51,7 +51,7 @@ module.exports = function(app, passport){
         .get(pollHandler.viewPolls);
         
     app.route("/:username/polls/:id")
-        .get(pollHandler.pollPage);
+        .get(pollHandler.pollLinkPage);
         
         
     
