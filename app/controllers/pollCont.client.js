@@ -5,7 +5,6 @@
 //set the semi-global variables here
 var pollID = "";
 var pollClick = "";
-var addOption = "";
 var status = "";
 var globalPoll;
 
@@ -26,7 +25,7 @@ function replacer(key, value) {
     // Filtering out properties
     if (typeof value === 'string') {
         var arr = value.split(" ");
-        var str = arr.join("---")
+        var str = arr.join("---");
         return str;
     }
     return value;
@@ -49,6 +48,19 @@ function addEventToClass (klass){
       var pollClass = klass[i];
       pollClass.addEventListener('click', openPoll, false);
     }
+}
+
+//draw chart if there are vote, else display a message
+function conditionalDraw(counter, data, options){
+  if (counter === 0){
+    document.getElementById('chart').innerHTML = "<div rel='no-chart'>This poll has no votes yet. Be the first to vote!</div>"
+  }
+  else{
+    document.getElementById('chart').innerHTML = "";
+    // Instantiate and draw the chart.    
+   var chart = new google.visualization.PieChart(document.getElementById('chart'));
+   chart.draw(data, options);
+  }
 }
 
 function loadPolls (result){
@@ -75,7 +87,7 @@ function loadPolls (result){
     pollID = poll[0].username ? poll[1]._id : poll[0]._id;
     
     // Chart
-   var voteOptions = poll[0].username? poll[1].options : poll[0].options;
+   var voteOptions = poll[0].options;
    var len = voteOptions.length;
    var data = new google.visualization.DataTable();    
    data.addColumn('string', 'Name');
@@ -83,34 +95,32 @@ function loadPolls (result){
     
     // Set chart options
    var options = chartOptions;
+   var voteCounter = 0;
         
     while (len){
       var currentOption = voteOptions[len-1];
       data.addRow([currentOption.name, currentOption.vote]);
       optionHtml += '<option class="vote-option" value=' + currentOption._id + '>' + currentOption.name + '</option>';
+      
+      //check for polls with votes other than 0;
+      if(currentOption.vote > 0){ voteCounter++; }
       len--;
     }
     
     //Add your own options if you desire
-    optionHtml += '<option value="new" id="addOption">Add Your Own Option</option>';
+    optionHtml += '<option value="new">Add Your Own Option</option>';
     
     document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
     document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
     document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
     document.getElementById("pollSelection").innerHTML = optionHtml;
-    addOption = document.getElementById("addOption");
     document.getElementById("pollSelection").addEventListener('change', addOptionDisplay, false);
     
     //add click event to each of the polls in the pane
   addEventToClass (pollClick)
-    /* for (var i=0; i<pollClick.length; i++){
-      var pollClass = pollClick[i];
-      pollClass.addEventListener('click', openPoll, false);
-    } */
-    
-    // Instantiate and draw the chart.    
-   var chart = new google.visualization.PieChart(document.getElementById('chart'));
-   chart.draw(data, options);
+  
+  conditionalDraw(voteCounter, data, options);
+  
   }
 
 function updateChart(obj){
@@ -122,23 +132,27 @@ function updateChart(obj){
    var data = new google.visualization.DataTable();    
    data.addColumn('string', 'Name');
    data.addColumn('number', 'Votes');   
-        
+  
+  var voteCount = 0;
     while (len){
       var currentOption = voteOptions[len-1];
       data.addRow([currentOption.name, currentOption.vote]);
+      
+      //check if there is any vote for the option
+      if (currentOption.vote > 0){voteCount++};
       len--;
     }
   
   var options = chartOptions; 
     
    
- var chart = new google.visualization.PieChart(document.getElementById('chart'));
-   chart.draw(data, options);
+ conditionalDraw(voteCount, data, options);
   
   //set the 'poll' attribute of the poll to the result of an Ajax call
   //use the global status to check whether to click on poll
+  
+  document.getElementById(pollID).setAttribute("poll", obj);
   if(status === "new option"){
-    document.getElementById(pollID).setAttribute("poll", obj);
     document.getElementById(pollID).click();
     status = "";
   }
@@ -167,9 +181,10 @@ function openPoll(){
     }
   
   //Add your own options if you desire
-  optionHtml += '<option value="new" id="addOption">Add Your Own Option</option>';
+  optionHtml += '<option value="new">Add Your Own Option</option>';
   
   document.getElementById("pollViewHead").innerHTML = pollObj.name + ':<span> by ' + pollObj.author + '</span>';
+  document.getElementById("pollViewDesc").innerHTML = pollObj.description;
   document.getElementById("chartTitle").innerHTML = pollObj.name + ': Pie Chart.';
   document.getElementById("pollSelection").innerHTML = optionHtml;
   //update chart with updateChart function above
@@ -181,9 +196,9 @@ function sendVote(){
   ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
 }
 
-var submit = document.getElementById("submitVote");
+var submitVote = document.getElementById("submitVote");
 
-submit.addEventListener('click', sendVote, false);
+submitVote.addEventListener('click', sendVote, false);
 
 ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', appUrl + "/api/polls-array", loadPolls));
 
@@ -270,9 +285,9 @@ function addPoll(){
   
   var filtered = globalPoll.filter(function(value){return value.name.toLowerCase() === title.toLowerCase()});
   if (!title.match(/\w/g) || !desc.match(/\w/g) || !options.match(/\w/g)){
-    warning.innerHTML = "Please Fill in All the Info With Valid Characters!"
+    warning.innerHTML = "Please Fill in All the Info With Valid Characters!";
   }else if(filtered.length >= 1){
-    warning.innerHTML = "Poll Already exists with the Title. Please choose a different Title!"
+    warning.innerHTML = "Poll Already exists with the Title. Please choose a different Title!";
   }else{
     var optionsArr1 = options.split(/,\W*/g),
       optionsArr = [];
@@ -280,15 +295,15 @@ function addPoll(){
   optionsArr1.forEach(function(x){
     var upperCase = x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase();
     optionsArr.push(upperCase);
-  })
+  });
   
   
  var filteredOptions = optionsArr.filter( 
       function( item, index, inputArray ) {
         return inputArray.indexOf(item) == index;
       });
-  options = filteredOptions.join(",")
-  console.log(options);
+  options = filteredOptions.join(",");
+  desc = desc.slice(0, 1).toUpperCase() + desc.slice(1).toLowerCase();
     ajaxFunctions.ajaxRequest('POST', appUrl + "/api/polls-array?options=" + options + "&desc=" + desc+ "&name=" + title, updatePoll);
     
     //close create poll window

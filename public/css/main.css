@@ -217,6 +217,13 @@ select option:hover{
   width: 650px;
   height: 320px;
 }
+.poll-view-chart div[rel = no-chart]{
+  width: 600px;
+  margin: 0 auto;
+  color: red;
+  text-align: center;
+  background-color: black;
+}
 
 /* Own Option */
 .box-container{
