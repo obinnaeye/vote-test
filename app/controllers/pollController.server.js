@@ -146,17 +146,16 @@ function PollHandler () {
 
     this.pollLinkPage = function pollLinkPage (req, res){
     var pollId = req.params.id || "Polls";
-    var log, signUp, options;
+    var log, signUp, options, pollString;
     
-    
-    
-    /*function getOptions(data){
-            var poll = JSON.parse(data);
+    //populate the options to vote for
+    function getOptions(data){
+        console.log(typeof data);
+            var poll = data;
             var innerHtml = "<option value='' disabled selected hidden>Select Whom to vote for...</option>";
-            options = Array(poll.options);
-            
+            options = poll.options;
             options.forEach(function(pol, ind){
-                    var html = "<option value="+ pol+ ">" + pol +"</option>";
+                    var html = "<option value="+ pol.name+ ">" + pol.name +"</option>";
                     innerHtml += html;
             })
             
@@ -165,9 +164,21 @@ function PollHandler () {
             }
       
       return innerHtml;
-    }*/
+    }
     
-    //ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, getOptions()));
+    //use replacer function to deal with spaces in stringify 
+    //to be used as poll attribute
+    function replacer(key, value) {
+        // Filtering out properties
+        if (typeof value === 'string') {
+            var arr = value.split(" ");
+            var str = arr.join("---");
+            return str;
+        }
+        return value;
+     }
+    
+   
     
     if (req.isAuthenticated()){
             log = '<a ><button id="logout">Sign out</button></a>';
@@ -178,13 +189,15 @@ function PollHandler () {
             signUp = '<a href="/guest/signup"><button id="singup">Sign Up</button></a>';
     }
     
-    
+    function pageLoader(obj){
     var fullPage = "";
-    
-    var head = '<head><title>'+ pollId +'</title>'+
+    var str = JSON.stringify(obj, replacer);
+    var head = '<head poll =' + str + '><title>'+ pollId +'</title>'+
                 '<link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">'+
                 '<link href="/public/css/main.css" rel="stylesheet" type="text/css">'+
-                '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script></head>',
+                '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>'+
+                '<script type="text/javascript" src="/controllers/googleLoader.client.js"></script></head>',
+                
         htmlOpen = "<html>",
         htmlClose = "</html>",
         bodyOpen = "<body>",
@@ -207,7 +220,7 @@ function PollHandler () {
                         '<div class="poll-view-body"><div class="poll-view-selection"><p class="poll-view-desc">'+
                         'I want tht description to be here and nothing more than that.</p>'+
                         '<select name="candidates" required class="poll-selection" id = "pollSelection">'+
-                        '<option value="" disabled selected hidden>Select Whom to vote for...</option></select><br>'+
+                        getOptions(obj) +'</select><br>'+
                         '<input type="submit" class="submit-vote" value="VOTE" id="submitVote"></div>'+
                         '<div class="poll-view-chartArea">'+
                         '<div class="poll-view-chartTitle" id="chartTitle">The Title Of the Chart</div>'+
@@ -217,14 +230,22 @@ function PollHandler () {
                         '</div><div id="optionWarning"></div><div class="new-option-btns">'+
                         '<input type="submit" value="Vote" id="newOptionOk">'+
                         '<input type="submit" value="Cancel" id="newOptionCancel"></div></div></div>',
-        scripts = '<script type="text/javascript" src="/common/ajax-functions.js"></script>';
-                //'<script type="text/javascript" src="/controllers/pollLink.client.js"></script>';
+        scripts = '<script type="text/javascript" src="/common/ajax-functions.js"></script>' +
+                '<script type="text/javascript" src="/controllers/pollLinkCont.client.js"></script>';
         
                 
         //use function to populate the options.
         
         fullPage = htmlOpen + head + header + bodyOpen + pollContainer + bodyClose + scripts + htmlClose;
         res.send(fullPage);
+    }
+        
+        Polls.findOne({_id : pollId}).exec(function(err, result) {
+            if (err){throw err}
+            else{
+                pageLoader(result)
+            }
+        })
     }
     
     //create get polls here
