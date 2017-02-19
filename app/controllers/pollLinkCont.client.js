@@ -1,6 +1,6 @@
 (function(){
     
-    ajaxFunctions.ready(loadPoll);
+    google.charts.setOnLoadCallback(loadPoll);
     
     var chartOptions = {
       'width':650,
@@ -50,11 +50,11 @@
         var pollStr = pageHead.getAttribute("poll");
         var pollObj = JSON.parse(pollStr, reviver);
         
-        
+        console.log(pollObj);
         // Chart
        var voteOptions = pollObj.options;
        var len = voteOptions.length;
-       var data = new google.visualization.DataTable();    
+       var data = new google.visualization.DataTable();
        data.addColumn('string', 'Name');
        data.addColumn('number', 'Votes');
         
@@ -72,9 +72,37 @@
         }
         
         conditionalDraw(voteCounter, data, options);
+        
+        //add events here so it is called after page load
+        var submitVote = document.getElementById("submitVote");
+        submitVote.addEventListener('click', vote, false);
+    }
+    
+    function vote(){
+        var value = document.getElementById("pollSelection").value;
+        //lock screen here
+        if(value){
+            document.getElementById("mask").style.display = "block";
+            document.getElementById("displayBox").style.display = "block";
+            ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, update)
+        }
     }
     
     
+    function update(data){
+        //no need to create new poll string attribute in the head, the data is a string already
+        //var newPollStr = JSON.stringify(data);
+        var pageHead = document.getElementsByTagName("head")[0];
+        pageHead.setAttribute("poll", data);
+        
+        loadPoll();
+        //Open screen here
+        document.getElementById("displayBox").style.display = "none";
+        document.getElementById("mask").style.display = "none";
+    }
+    
+    //
+    ajaxFunctions.ready(loadPoll);
     
 })()
 

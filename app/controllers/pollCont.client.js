@@ -193,7 +193,9 @@ function openPoll(){
 
 function sendVote(){
   var value = document.getElementById("pollSelection").value;
-  ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
+  if (value){
+    ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
+  }
 }
 
 var submitVote = document.getElementById("submitVote");

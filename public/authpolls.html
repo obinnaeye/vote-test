@@ -55,44 +55,34 @@
          </div>
        </div>
        <div class="add-option" id="newOption">
-       <div class="new-option">
-         New Option: <input type="text" placeholder="Type your own option here." id="newOptionValue">
+           <div class="new-option">
+             New Option: <input type="text" placeholder="Type your own option here." id="newOptionValue">
+           </div>
+           <div id="optionWarning"></div>
+           <div class="new-option-btns">
+             <input type="submit" value="Vote" id="newOptionOk">
+             <input type="submit" value="Cancel" id="newOptionCancel">
+           </div>
        </div>
-       <div id="optionWarning"></div>
-       <div class="new-option-btns">
-         <input type="submit" value="Vote" id="newOptionOk">
-         <input type="submit" value="Cancel" id="newOptionCancel">
+       <div class="create-poll" id="newPoll">
+           <div class="create-poll-name" id="createPollName">
+             Title: <input type ="text" id="createInputName" placeholder="---Your Poll Title; Shorter is Better!---">
+           </div>
+           <div class="create-poll-desc" id="createPollDesc">
+             Description: <input type ="text" id="createInputDesc" placeholder="---Describe Your Poll; What is Your Poll ALl About?---">
+           </div>
+           <div class="create-poll-options" id="createPollOptions">
+             Options: <input type ="text" id="createInputOptions" placeholder="---Add Options Seperated by Commas!---">
+           </div>
+           <p class="create-poll-warning" id="createPollWarning"></p>
+           <div class="create-poll-btns">
+             <input type="submit" id="createPollOk" value="Add Poll">
+             <input type="submit" id="createPollCancel" value="Cancel">
+           </div>       
        </div>
+       <div class="display-box" id="displayBox" >Submitting vote . . .</div>
      </div>
-     <div class="create-poll" id="newPoll">
-       <div class="create-poll-name" id="createPollName">
-         Title: <input type ="text" id="createInputName" placeholder="---Your Poll Title; Shorter is Better!---">
-       </div>
-       <div class="create-poll-desc" id="createPollDesc">
-         Description: <input type ="text" id="createInputDesc" placeholder="---Describe Your Poll; What is Your Poll ALl About?---">
-       </div>
-       <div class="create-poll-options" id="createPollOptions">
-         Options: <input type ="text" id="createInputOptions" placeholder="---Add Options Seperated by Commas!---">
-       </div>
-       <p class="create-poll-warning" id="createPollWarning"></p>
-       <div class="create-poll-btns">
-         <input type="submit" id="createPollOk" value="Add Poll">
-         <input type="submit" id="createPollCancel" value="Cancel">
-       </div>       
-     </div>
-     </div>
-     <!--<div class="add-option" id="newOption">
-       <div class="new-option">
-         New Option: <input type="text" placeholder="Type your own option here." id="newOptionValue">
-       </div>
-       <div id="optionWarning"></div>
-       <div class="new-option-btns">
-         <input type="submit" value="Vote" id="newOptionOk">
-         <input type="submit" value="Cancel" id="newOptionCancel">
-       </div>
-     </div>
-     <div class="create-poll" id="newPoll"></div>-->
-     
+     <div class="mask" id="mask" ></div>
      <script type="text/javascript" src="/common/ajax-functions.js"></script>
      <script type="text/javascript" src="/controllers/pollCont.client.js"></script>
      <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
