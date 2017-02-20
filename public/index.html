@@ -1,10 +1,14 @@
+
 <html ng-app="clementineApp">
    <head>
       <title>VotingKing</title>
+      <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">
+      <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
       <link href="/public/css/main.css" rel="stylesheet" type="text/css">
    </head>
 
    <body>
+     
      <div class="header">
        <div class="header-inside">
          <div class="title">
@@ -19,11 +23,24 @@
          </div>
        </div>
      </div>
-     <div class="polls" id="pollView"></div>
      <div class="image">
-       <img src="http://globeotter.com/wp-content/uploads/2012/08/banner.png" class="body-image">
+         <img class="mySlides active" src="/public/img/voteme1200x450.png">
+         <img class="mySlides" src="/public/img/createpoll.png">
+         <img class="mySlides" src="/public/img/share.png">
+         <img class="mySlides" src="/public/img/polldelete.png">
+         <a class="w3-btn-floating w3-display-left" onclick="plusDivs(-1)">&#10094;</a>
+         <a class="w3-btn-floating w3-display-right" onclick="plusDivs(+1)">&#10095;</a>
+         <div class="w3-center w3-display-bottommiddle" style="width:100%">
+            <span class="w3-badge demo w3-border" onclick="currentDiv(1)"></span>
+            <span class="w3-badge demo w3-border" onclick="currentDiv(2)"></span>
+            <span class="w3-badge demo w3-border" onclick="currentDiv(3)"></span>
+            <span class="w3-badge demo w3-border" onclick="currentDiv(4)"></span>
+         </div>
      </div>
+     
      <script type="text/javascript" src="/common/ajax-functions.js"></script>
+     <script type="text/javascript" src="/controllers/homeControl.client.js"></script>
      <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
+     
    </body>
 </html>

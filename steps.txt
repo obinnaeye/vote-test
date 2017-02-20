@@ -15,5 +15,7 @@ check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 //remember un-auth poll.html
 //add poll link to view
 //delete sesion once done
+//tidy positioning for new option and create poll
+//change value from "new" to "......"
 
 

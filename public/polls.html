@@ -1,15 +1,17 @@
-
 <html ng-app="clementineApp">
    <head>
-      <title>VotingKing</title>
-      <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+     <title>VotingKing</title> 
+     <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">
+     <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script type="text/javascript">google.charts.load('current', {packages: ['corechart']});</script>
    </head>
 
    <body>
      <div class="header">
        <div class="header-inside">
          <div class="title">
-             <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
+         <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
          </div>
          <div class="header-tools">
             <a href="/"><button id="home">Home</button></a>
@@ -20,40 +22,52 @@
          </div>
        </div>
      </div>
-     <div class="poll-container">
-       <h3 class="poll-header">Available Polls</h3>
+     <div class="poll-container">       
        <div class="poll-main">
          <div class="poll-pane">
-           <div class = "poll-pane-header">
-             <h3 class="poll-pane-head">Polls</h3>
-           </div>           
+           <div class="poll-pane-head">Polls</div>           
            <div class="poll-pane-body">
-             <div class="poll-pane-polls">
-               uafafafa
-             </div>
+             <ul class="poll-pane-polls" id = "poll-list">
+               Loading Polls...
+             </ul>
            </div>
          </div>
          <div class="poll-view">
-           <h4 class="poll-view-head">The Name of Poll as created by the user</h4>
+           <div class="poll-view-head" id="pollViewHead">The Name of Poll as created by the user</div>
            <div class="poll-view-body">
              <div class="poll-view-selection">
-                <p class="poll-view-desc">I want tht description to be here and nothing more than that.</p>
-                <select name="candidates" required class="poll-selection">
+                 <p class="poll-view-desc" id="pollViewDesc">I want the description to be here and nothing more than that.</p>
+                 <select name="candidates" required class="poll-selection" id = "pollSelection">
                    <option value="" disabled selected hidden>Select Whom to vote for...</option>
-                   <option value="King">King</option>
-                   <option value="saab">Saab</option>
-                   <option value="fiat">Fiat</option>
-                   <option value="audi">Audi</option>
-                </select><br>
-                <input type="submit" class="submit-vote" value="VOTE">
+                   <option value="Please Reload Page!">Please Reload Page!</option>
+                   <option value="Please Reload Page!">Please Reload Page!</option>
+                   <option value="Please Reload Page!">Please Reload Page!</option>
+                   <option value="Please Reload Page!">Please Reload Page!</option>
+                 </select><br>
+                 <input type="submit" class="submit-vote" value="VOTE" id="submitVote">
+                 <div class="poll-link" id="pollLink">
+                     <img src="/public/img/sharebtn112x40.png">
+                 </div>
+                 <div class="display-box" id="linkBox">
+                     <div class="display-box-inner">
+                         Copy Link: <span id="linkBoxLink">This is the link</span>
+                     </div>
+                     <button id="linkBoxClose">DONE</button>
+                 </div>
              </div>
-             <div class="poll-view-chart"></div>
+             <div class="poll-view-chartArea">
+               <div class="poll-view-chartTitle" id="chartTitle">The Title Of the Chart</div>
+               <div class="poll-view-chart" id="chart"></div>
+             </div>             
            </div>           
          </div>
        </div>
+       <div class="display-box" id="displayBox" >Submitting vote . . .</div>
      </div>
-     <script src="https://www.gstatic.com/charts/loader.js"></script>
+     <div class="mask" id="mask" ></div>
      <script type="text/javascript" src="/common/ajax-functions.js"></script>
+     <script type="text/javascript" src="/controllers/guestPoll.client.js"></script>
      <script type="text/javascript" src="/controllers/sessionCont.client.js"></script>
    </body>
+   
 </html>
