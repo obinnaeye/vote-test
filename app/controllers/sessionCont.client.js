@@ -3,12 +3,18 @@
 //manipulate dom
 
 (function () {
-  
+  //using ready function so that buttons may be available for dynamically added pages; 
+  // eg /:username/polls/:id
+   ajaxFunctions.ready(addButtons)
    
-   var loginButton = document.querySelector('#login') || null;
-   var logoutButton = document.querySelector('#logout') || null;
+   var loginButton, logoutButton;
    
-
+   function addButtons(){
+       loginButton = document.querySelector('#login') || null;
+       logoutButton = document.querySelector('#logout') || null;
+       console.log(loginButton, logoutButton);
+       
+       
    //pollLink.addEventListener('click', , false);
    
    if (loginButton){
@@ -26,6 +32,6 @@
         });
       }, false);
    }
-
+   }
   
 })();

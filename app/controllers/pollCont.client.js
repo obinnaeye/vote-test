@@ -147,6 +147,10 @@ function updateChart(obj){
     
    
  conditionalDraw(voteCount, data, options);
+ 
+ //Open screen here
+  document.getElementById("displayBox").style.display = "none";
+  document.getElementById("mask").style.display = "none";
   
   //set the 'poll' attribute of the poll to the result of an Ajax call
   //use the global status to check whether to click on poll
@@ -194,6 +198,9 @@ function openPoll(){
 function sendVote(){
   var value = document.getElementById("pollSelection").value;
   if (value){
+    //lock the screen first
+    document.getElementById("mask").style.display = "block";
+    document.getElementById("displayBox").style.display = "block";
     ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
   }
 }
@@ -265,8 +272,7 @@ function updatePoll(data){
   
   var parsedData = JSON.parse(data);
   var stringData = JSON.stringify(parsedData, replacer);
-  globalPoll.push(parsedData);  
-  console.log(globalPoll);
+  globalPoll.push(parsedData);
   var newPollList = document.getElementById("poll-list").innerHTML;
   newPollList += '<li class="poll-ref" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
   

@@ -1,26 +1,36 @@
 <html>
 
     <head>
-        <title>VvoteKing</title>
-
-        <link href="http://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet" type="text/css">
+        <title>VoteKing</title>
+        <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">
         <link href="/public/css/main.css" rel="stylesheet" type="text/css">
     </head>
-
     <body>
-        <div class="login-container"> 
-        <div class="login">
+       <div class="header">
+           <div class="header-inside">
+             <div class="title">
+                 <img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true">
+             </div>
+             <div class="header-tools">
+                <a href="/"><button id="home">Home</button></a>
+                <a href="/guest/about"><button id="about">About</button></a>
+                <a href="/guest/signup"><button id="singup">Sign Up</button></a>
+                <a href="/guest/polls"><button id="polls">Polls</button></a>
+             </div>
+           </div>
+       </div>
+       <div class="login-container">
             <img src="/public/img/votebanner.png" alt="voteking logo"/>
-            <br />
-            <p class="clementine-text">VotingKing</p>
-            <a href="/auth/github">
-                <div class="btn" id="login-btn">
-                    <img src="/public/img/github_32px.png" alt="github logo" />
-                    <p>LOGIN WITH GITHUB</p>
-                </div>
-            </a>
-        </div>
-        </div>
+            <div class="login">
+                <br />
+                <a href="/auth/github">
+                    <div class="git-btn" id="login-btn">
+                        <img src="/public/img/github.png" alt="github logo" class="github-img" />
+                        <p>LOGIN WITH GITHUB</p>
+                    </div>
+                </a>
+            </div>
+       </div>
     </body>
 
 </html>

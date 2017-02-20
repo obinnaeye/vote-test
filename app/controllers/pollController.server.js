@@ -131,19 +131,38 @@ function PollHandler () {
                             displayBox + '</div>',
             mask = '<div class="mask" id="mask" ></div>',
             scripts = '<script type="text/javascript" src="/common/ajax-functions.js"></script>' +
-                    '<script type="text/javascript" src="/controllers/pollLinkCont.client.js"></script>';
+                    '<script type="text/javascript" src="/controllers/pollLinkCont.client.js"></script>'+
+                    '<script type="text/javascript" src="/controllers/sessionCont.client.js"></script>';
             
                     
             //use function to populate the options.
             
             fullPage = htmlOpen + head + scripts + header + bodyOpen + pollContainer + mask + bodyClose + htmlClose;
-            res.send(fullPage);
+            
+            if (req.isAuthenticated()){
+                if (req.user.github.username === req.params.username){
+                    res.send(fullPage);
+                }else{
+                    res.redirect("/" + req.user.github.username +"/polls/" + obj._id);
+                }
+            }else{
+                if (req.params.username === "guest"){
+                    res.send(fullPage);
+                }else{
+                    res.redirect("/guest/polls/" + obj._id);
+                }
+            }
+        }
+        
+        function errorHandle(txt){
+            res.send(txt)
         }
         
         Polls.findOne({_id : pollId}).exec(function(err, result) {
             if (err){throw err}
             else{
-                pageLoader(result)
+                if(!result){errorHandle("Sorry! The poll you are looking for does not exist or has been deleted.")}
+                else{pageLoader(result)}
             }
         })
     }

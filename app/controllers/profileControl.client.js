@@ -14,10 +14,12 @@
         
         if(len > 0){
             while (len){
-                var currentPoll = pollArr[len-1];
-                pollHtml += '<li class="profile-poll" id=' + currentPoll._id +   '>' +
+                var currentPoll = pollArr[len-1],
+                    currentID = currentPoll._id;
+                
+                pollHtml += '<li class="profile-poll" id=' + currentID +   '>' +
                             '<span>' + currentPoll.name + '</span>' + 
-                            '<button class="profile-poll-btns profile-poll-view">View</button>'+
+                            '<a href="/username/polls/' + currentID + '"><button class="profile-poll-btns profile-poll-view">View</button></a>'+
                             '<button class="profile-poll-btns profile-poll-delete">Delete</button>'+
                             '</li>';
                 len--;
@@ -74,14 +76,5 @@
         document.getElementById("deleteWarning").style.display = "none";
     }
     document.getElementById("deleteWarnCancel").addEventListener("click", cancelDelete, false);
-    
-    
-    
-    
-    function createPoll(){
-        //handle create poll button
-    }
-    
-    
     
 })();

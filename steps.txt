@@ -4,16 +4,16 @@ Routes that need special advantages are
     poll ... add options, create poll, delete poll, logout, profile
     home ... logout, new poll, my polls, profile
 
-show 404.html page when page does not exist
+show 404.html page when page does not exist (see pollLinkPage in pollController.server.js)
 
 adding a new poll should flash a success message or error message
 check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 
-//handle poll collation for profile and nav buttons
+//nav buttons
 //deal with warning and ensure they are hidden when correct parameters are entered
-//poll vote button not updating after voting, pls tidy
-//tidy home page and poll link by id
-//add screen protection
-//description not working on updating
 //handle lengths of text in display eg description title options
 //remember un-auth poll.html
+//add poll link to view
+//delete sesion once done
+
+
