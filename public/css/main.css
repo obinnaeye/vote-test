@@ -146,7 +146,7 @@ span{
   font-family: 'Khand', sans-serif;
   letter-spacing: 2px;
   font-size: 15px;
-
+  overflow: auto
 }
 .poll-view-body{
   display: flex;
@@ -224,7 +224,6 @@ select option:hover{
 
 .poll-view-chartTitle{
   background: white;
-  width: 650px;
   height: auto;
   color: black;
   text-align: center;
@@ -232,6 +231,7 @@ select option:hover{
   font-size: 20px;
   padding: 10px;
   margin: 6px auto;
+  overflow: auto;
 }
 
 .poll-view-chart{

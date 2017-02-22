@@ -112,6 +112,10 @@
                         var html = "<option value="+ pol._id + ">" + pol.name +"</option>";
                         optionHtml += html;
                 });
+        var optionPresent = document.getElementById("pollSelection").lastChild.value;
+        if(optionPresent === "..."){
+          optionHtml += '<option value="...">Add Your Own Option</option>';
+        }
         document.getElementById("pollSelection").innerHTML = optionHtml;
         
         loadPoll();
@@ -155,6 +159,9 @@
       else{
         newOption = newOption.slice(0, 1).toUpperCase() + newOption.slice(1);
         document.getElementById("newOption").style.display = "none";
+        document.getElementById("displayBox").style.display = "block";
+        document.getElementById("mask").style.display = "block";
+        
         ajaxFunctions.ajaxRequest('POST', appUrl + "/api/newoption?pollid=" + pollID + "&option=" + newOption, update);    
         //document.getElementById("pollSelection").value = "";
         document.getElementById("newOptionValue").value = "";

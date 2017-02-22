@@ -14,7 +14,5 @@ check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 
 
 //delete sesion once done
-//options not updating in pollLinkPage
-//add capital letter to description on creation
 
 
