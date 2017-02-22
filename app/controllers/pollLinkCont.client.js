@@ -50,7 +50,6 @@
         var pollStr = pageHead.getAttribute("poll");
         var pollObj = JSON.parse(pollStr, reviver);
         
-        console.log(pollObj);
         // Chart
        var voteOptions = pollObj.options;
        var len = voteOptions.length;
@@ -106,6 +105,15 @@
         var pageHead = document.getElementsByTagName("head")[0];
         pageHead.setAttribute("poll", data);
         
+        //populate poll options
+        var optionHtml = '<option value="" disabled selected hidden>Select Whom to vote for...</option>';
+        var pollOptions= JSON.parse(data).options;
+        pollOptions.forEach(function(pol, ind){
+                        var html = "<option value="+ pol._id + ">" + pol.name +"</option>";
+                        optionHtml += html;
+                });
+        document.getElementById("pollSelection").innerHTML = optionHtml;
+        
         loadPoll();
         //Open screen here
         document.getElementById("displayBox").style.display = "none";
@@ -117,7 +125,6 @@
       var value = document.getElementById("pollSelection").value;  
       if(value === "..."){
         document.getElementById("newOption").style.display = "block";
-        console.log(document.getElementById("newOptionCancel"))
       }
     }
     
@@ -138,7 +145,7 @@
           pollObj = JSON.parse(pollStr, reviver),
           options = pollObj.options,
           pollID = pollObj._id;
-      var filtered = options.filter(function(value){return value.name === newOption});
+      var filtered = options.filter(function(value){return value.name.toLocaleLowerCase() === newOption.toLocaleLowerCase()});
       
       if(filtered.length >= 1){
         document.getElementById("optionWarning").innerHTML = "This option already exists. Cancel or enter a new option!";
@@ -146,6 +153,7 @@
         document.getElementById("optionWarning").innerHTML = "You have not entered any option!";
       }
       else{
+        newOption = newOption.slice(0, 1).toUpperCase() + newOption.slice(1);
         document.getElementById("newOption").style.display = "none";
         ajaxFunctions.ajaxRequest('POST', appUrl + "/api/newoption?pollid=" + pollID + "&option=" + newOption, update);    
         //document.getElementById("pollSelection").value = "";
