@@ -76,6 +76,17 @@
         //add events here so it is called after page load
         var submitVote = document.getElementById("submitVote");
         submitVote.addEventListener('click', vote, false);
+        if(document.getElementById("newOption")){
+            document.getElementById("pollSelection").addEventListener('change', addOptionDisplay, false);
+        }
+        
+        if(document.getElementById("newOptionCancel")){
+            document.getElementById("newOptionCancel").addEventListener('click', cancelOption, false);
+        }
+        
+        if(document.getElementById("newOptionOk")){
+            document.getElementById("newOptionOk").addEventListener('click', newOption, false);
+        }
     }
     
     function vote(){
@@ -101,6 +112,47 @@
         document.getElementById("mask").style.display = "none";
     }
     
+    //Add your own option function
+    function addOptionDisplay(){
+      var value = document.getElementById("pollSelection").value;  
+      if(value === "..."){
+        document.getElementById("newOption").style.display = "block";
+        console.log(document.getElementById("newOptionCancel"))
+      }
+    }
+    
+    //Cancel new option window;
+    function cancelOption(){
+      document.getElementById("newOption").style.display = "none";
+      document.getElementById("pollSelection").value = "";
+      document.getElementById("newOptionValue").value = "";
+      document.getElementById("optionWarning").innerHTML = "";
+    }
+    
+    
+    //Add new option
+    function newOption(){
+      var newOption = document.getElementById("newOptionValue").value;  
+      var pageHead = document.getElementsByTagName("head")[0],
+          pollStr = pageHead.getAttribute("poll"),
+          pollObj = JSON.parse(pollStr, reviver),
+          options = pollObj.options,
+          pollID = pollObj._id;
+      var filtered = options.filter(function(value){return value.name === newOption});
+      
+      if(filtered.length >= 1){
+        document.getElementById("optionWarning").innerHTML = "This option already exists. Cancel or enter a new option!";
+      }else if(newOption === ""){
+        document.getElementById("optionWarning").innerHTML = "You have not entered any option!";
+      }
+      else{
+        document.getElementById("newOption").style.display = "none";
+        ajaxFunctions.ajaxRequest('POST', appUrl + "/api/newoption?pollid=" + pollID + "&option=" + newOption, update);    
+        //document.getElementById("pollSelection").value = "";
+        document.getElementById("newOptionValue").value = "";
+        document.getElementById("optionWarning").innerHTML = "";
+      }  
+    }
     //
     ajaxFunctions.ready(loadPoll);
     

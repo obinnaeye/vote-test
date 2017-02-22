@@ -56,7 +56,7 @@ function PollHandler () {
                 })
                 
                 if (req.isAuthenticated()){
-                    innerHtml += '<option value="new">Add Your Own Option</option>';
+                    innerHtml += '<option value="...">Add Your Own Option</option>';
                 }
           
           return innerHtml;

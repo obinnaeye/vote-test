@@ -65,63 +65,65 @@ function conditionalDraw(counter, data, options){
 
 function loadPolls (result){
     var poll = JSON.parse(result);
-    globalPoll = poll;
-    var pollHtml = "";
-    var optionHtml = '<option value="" disabled selected hidden>Select Whom to vote for...</option>';
-    
-    //populate polls
-    var index = poll[0].username? 1 : 0;
-    var firstPoll = poll[index]; 
-  
-    while (index < poll.length){
-      var currentPoll = poll[index],
-          pollString = JSON.stringify(currentPoll, replacer);
-      pollHtml += '<li class="poll-ref" id =' + currentPoll._id + ' poll=' + pollString +' >' + currentPoll.name + ':<span> by ' + currentPoll.author + '</span></li>';      
-      index++;
-    }  
-    
-    document.getElementById("poll-list").innerHTML = pollHtml;
-    pollClick = document.getElementsByClassName("poll-ref");
-    //add class active to the first poll in poll pane
-    document.getElementsByClassName("poll-ref")[0].className = "poll-ref active";
-    pollID = poll[0].username ? poll[1]._id : poll[0]._id;
-    
-    // Chart
-   var voteOptions = poll[0].options;
-   var len = voteOptions.length;
-   var data = new google.visualization.DataTable();    
-   data.addColumn('string', 'Name');
-   data.addColumn('number', 'Votes');
-    
-    // Set chart options
-   var options = chartOptions;
-   var voteCounter = 0;
-        
-    while (len){
-      var currentOption = voteOptions[len-1];
-      data.addRow([currentOption.name, currentOption.vote]);
-      optionHtml += '<option class="vote-option" value=' + currentOption._id + '>' + currentOption.name + '</option>';
+    if (poll){
+      globalPoll = poll;
+      var pollHtml = "";
+      var optionHtml = '<option value="" disabled selected hidden>Select Whom to vote for...</option>';
       
-      //check for polls with votes other than 0;
-      if(currentOption.vote > 0){ voteCounter++; }
-      len--;
+      //populate polls
+      var index = 0;
+      var firstPoll = poll[index]; 
+    
+      while (index < poll.length){
+        var currentPoll = poll[index],
+            pollString = JSON.stringify(currentPoll, replacer);
+        pollHtml += '<li class="poll-ref" id =' + currentPoll._id + ' poll=' + pollString +' >' + currentPoll.name + ':<span> by ' + currentPoll.author + '</span></li>';      
+        index++;
+      }  
+      
+      document.getElementById("poll-list").innerHTML = pollHtml;
+      pollClick = document.getElementsByClassName("poll-ref");
+      //add class active to the first poll in poll pane
+      document.getElementsByClassName("poll-ref")[0].className = "poll-ref active";
+      pollID = poll[0].username ? poll[1]._id : poll[0]._id;
+      
+      // Chart
+     var voteOptions = poll[0].options;
+     var len = voteOptions.length;
+     var data = new google.visualization.DataTable();    
+     data.addColumn('string', 'Name');
+     data.addColumn('number', 'Votes');
+      
+      // Set chart options
+     var options = chartOptions;
+     var voteCounter = 0;
+          
+      while (len){
+        var currentOption = voteOptions[len-1];
+        data.addRow([currentOption.name, currentOption.vote]);
+        optionHtml += '<option class="vote-option" value=' + currentOption._id + '>' + currentOption.name + '</option>';
+        
+        //check for polls with votes other than 0;
+        if(currentOption.vote > 0){ voteCounter++; }
+        len--;
+      }
+      
+      //Add your own options if you desire
+      optionHtml += '<option value="...">Add Your Own Option</option>';
+      
+      document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
+      document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
+      document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
+      document.getElementById("pollSelection").innerHTML = optionHtml;
+      document.getElementById("pollSelection").addEventListener('change', addOptionDisplay, false);
+      document.getElementById("pollLink").addEventListener("click", showLink, false);
+      document.getElementById("linkBoxClose").addEventListener("click", closeLink, false);
+      
+      //add click event to each of the polls in the pane
+      addEventToClass (pollClick);
+      
+      conditionalDraw(voteCounter, data, options);
     }
-    
-    //Add your own options if you desire
-    optionHtml += '<option value="new">Add Your Own Option</option>';
-    
-    document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
-    document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
-    document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
-    document.getElementById("pollSelection").innerHTML = optionHtml;
-    document.getElementById("pollSelection").addEventListener('change', addOptionDisplay, false);
-    document.getElementById("pollLink").addEventListener("click", showLink, false);
-    document.getElementById("linkBoxClose").addEventListener("click", closeLink, false);
-    
-    //add click event to each of the polls in the pane
-  addEventToClass (pollClick)
-  
-  conditionalDraw(voteCounter, data, options);
   
   }
 
@@ -187,7 +189,7 @@ function openPoll(){
     }
   
   //Add your own options if you desire
-  optionHtml += '<option value="new">Add Your Own Option</option>';
+  optionHtml += '<option value="...">Add Your Own Option</option>';
   
   document.getElementById("pollViewHead").innerHTML = pollObj.name + ':<span> by ' + pollObj.author + '</span>';
   document.getElementById("pollViewDesc").innerHTML = pollObj.description;
@@ -213,10 +215,12 @@ submitVote.addEventListener('click', sendVote, false);
 
 ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', appUrl + "/api/polls-array", loadPolls));
 
-//Add your own option function
+//////////////Add your own option functions/////////////////
+//display addoption window
 function addOptionDisplay(){
   var value = document.getElementById("pollSelection").value;  
-  if(value === "new"){
+  if(value === "..."){
+    document.getElementById("mask").style.display = "block";
     document.getElementById("newOption").style.display = "block";
   }
 }
@@ -227,6 +231,7 @@ function cancelOption(){
   document.getElementById("pollSelection").value = "";
   document.getElementById("newOptionValue").value = "";
   document.getElementById("optionWarning").innerHTML = "";
+  document.getElementById("mask").style.display = "none";
 }
 document.getElementById("newOptionCancel").addEventListener('click', cancelOption, false);
 
@@ -236,7 +241,7 @@ function newOption(){
   var newOption = document.getElementById("newOptionValue").value;  
   var poll = document.getElementById(pollID).getAttribute("poll"),
       options = JSON.parse(poll).options;
-  var filtered = options.filter(function(value){return value.name === newOption});
+  var filtered = options.filter(function(value){return value.name.toLowerCase() === newOption.toLocaleLowerCase()});
   
   if(filtered.length >= 1){
     document.getElementById("optionWarning").innerHTML = "This option already exists. Cancel or enter a new option!";
@@ -244,21 +249,25 @@ function newOption(){
     document.getElementById("optionWarning").innerHTML = "You have not entered any option!";
   }
   else{
+    newOption = newOption.slice(0, 1).toUpperCase() + newOption.slice(1);
     document.getElementById("newOption").style.display = "none";
     ajaxFunctions.ajaxRequest('POST', appUrl + "/api/newoption?pollid=" + pollID + "&option=" + newOption, updateChart);    
     //document.getElementById("pollSelection").value = "";
     document.getElementById("newOptionValue").value = "";
     document.getElementById("optionWarning").innerHTML = "";
+    document.getElementById("mask").style.display = "none";
   }  
 }
 document.getElementById("newOptionOk").addEventListener('click', newOption, false);
 
-//Create New Poll and Add the poll
+///////////////Create New Poll and Add the poll////////////////
+//display createpoll window
 var newpollButton = document.getElementById("createPoll");
-function createPoll(){
-  document.getElementById("newPoll").style.display = "block"
+function createPollDisplay(){
+  document.getElementById("newPoll").style.display = "block";
+  document.getElementById("mask").style.display = "block";
 }
-newpollButton.addEventListener('click', createPoll, false);
+newpollButton.addEventListener('click', createPollDisplay, false);
 
 function cancelCreatePoll(){
     document.getElementById("newPoll").style.display = "none";
@@ -266,6 +275,7 @@ function cancelCreatePoll(){
     document.getElementById("createInputDesc").value = "";
     document.getElementById("createInputOptions").value = "";
     document.getElementById("createPollWarning").innerHTML ="";
+    document.getElementById("mask").style.display = "none";
 }
 document.getElementById("createPollCancel").addEventListener('click', cancelCreatePoll, false);
 
@@ -301,23 +311,24 @@ function addPoll(){
   }else{
     var optionsArr1 = options.split(/,\W*/g),
       optionsArr = [];
-  //convert options to array of uppercase first letter
-  optionsArr1.forEach(function(x){
-    var upperCase = x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase();
-    optionsArr.push(upperCase);
-  });
+    //convert options to array of uppercase first letter
+    optionsArr1.forEach(function(x){
+      var upperCase = x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase();
+      optionsArr.push(upperCase);
+    });
   
   
- var filteredOptions = optionsArr.filter( 
-      function( item, index, inputArray ) {
-        return inputArray.indexOf(item) == index;
-      });
-  options = filteredOptions.join(",");
-  desc = desc.slice(0, 1).toUpperCase() + desc.slice(1).toLowerCase();
-    ajaxFunctions.ajaxRequest('POST', appUrl + "/api/polls-array?options=" + options + "&desc=" + desc+ "&name=" + title, updatePoll);
+   var filteredOptions = optionsArr.filter( 
+        function( item, index, inputArray ) {
+          return inputArray.indexOf(item) == index;
+        });
+    options = filteredOptions.join(",");
+    desc = desc.slice(0, 1).toUpperCase() + desc.slice(1).toLowerCase();
+      ajaxFunctions.ajaxRequest('POST', appUrl + "/api/polls-array?options=" + options + "&desc=" + desc+ "&name=" + title, updatePoll);
     
     //close create poll window
     document.getElementById("newPoll").style.display = "none";
+    document.getElementById("mask").style.display = "none";
     document.getElementById("createInputName").value = "";
     document.getElementById("createInputDesc").value = "";
     document.getElementById("createInputOptions").value = "";
@@ -330,6 +341,8 @@ document.getElementById("createPollOk").addEventListener('click', addPoll, false
   function showLink(){
       document.getElementById("mask").style.display = "block";
       document.getElementById("linkBox").style.display = "block";
+      var pollID = document.getElementsByClassName("poll-ref active")[0].getAttribute("id");
+      document.getElementById("linkBoxLink").innerHTML = appUrl + "/username/polls/" + pollID;
   }
   
   //close link box

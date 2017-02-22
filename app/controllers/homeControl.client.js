@@ -1,5 +1,3 @@
-ajaxFunctions.ready(
-    function(){
         var slideIndex = 1;
         showDivs(slideIndex);
         var timer;
@@ -30,5 +28,3 @@ ajaxFunctions.ready(
           dots[slideIndex-1].className += " w3-white";
           timer = setTimeout(function(){plusDivs(1)}, 5000); 
         }
-    }
-)

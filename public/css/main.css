@@ -258,13 +258,12 @@ select option:hover{
 .add-option, .create-poll{
   width: 600px;
   height: 200px;
-  background: #707B7C;
-  color: white;
+  background: white;
+  color: black;
   padding: 30px;
-  position: absolute;
-  z-index: 4;
-  left: 350px;
-  top: 180px;
+  position: relative;
+  z-index: 100;
+  margin:-550px auto 0px;
   border-radius: 10px;
   /* opacity: 0.9; */
   display: none;
@@ -287,7 +286,7 @@ select option:hover{
   width: 580px;
   margin: 0 auto;
   text-align : center;
-  color: yellow;
+  color: red;
   margin-bottom: 5px;
 }
 .new-option-btns{

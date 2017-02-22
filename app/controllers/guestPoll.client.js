@@ -165,14 +165,7 @@ function updateChart(obj){
   document.getElementById("mask").style.display = "none";
   
   //set the 'poll' attribute of the poll to the result of an Ajax call
-  //use the global status to check whether to click on poll
-  
   document.getElementById(pollID).setAttribute("poll", obj);
-  if(status === "new option"){
-    document.getElementById(pollID).click();
-    status = "";
-  }
-  
 }
 
 function openPoll(){
@@ -195,9 +188,6 @@ function openPoll(){
       optionHtml += '<option class="vote-option" value=' + currentOption._id + '>' + currentOption.name + '</option>';
       len--;
     }
-  
-  //Add your own options if you desire
-  optionHtml += '<option value="new">Add Your Own Option</option>';
   
   document.getElementById("pollViewHead").innerHTML = pollObj.name + ':<span> by ' + pollObj.author + '</span>';
   document.getElementById("pollViewDesc").innerHTML = pollObj.description;
