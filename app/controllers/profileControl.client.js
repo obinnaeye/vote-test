@@ -51,11 +51,7 @@
         
         ajaxFunctions.ajaxRequest('GET', appUrl + "/api/userpolls?username=" + username, userPolls);
     }
-    
-    function viewPoll(){
-        //view poll in the specified /:id route
-    }
-    
+   
     function deleteCallback(data){
         document.getElementById("deleteWarning").style.display = "none";
         var username = JSON.parse(data).author;

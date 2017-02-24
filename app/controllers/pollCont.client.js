@@ -7,6 +7,8 @@ var pollID = "";
 var pollClick = "";
 var status = "";
 var globalPoll;
+var userVotes;
+var globalCurrentPoll = "";
 
 var chartOptions = {
       'width':650,
@@ -30,6 +32,18 @@ function replacer(key, value) {
     }
     return value;
  }
+ 
+function voterCheck(){
+  var len = userVotes.length;
+  while (len){
+    var vote = userVotes[len-1];
+    if(vote.pollName === globalCurrentPoll){
+      return false;
+    }
+    len--;
+  }
+  return true;
+}
 
 
 //use reviver to remove "---" added in stringify
@@ -111,6 +125,7 @@ function loadPolls (result){
       //Add your own options if you desire
       optionHtml += '<option value="...">Add Your Own Option</option>';
       
+      globalCurrentPoll = firstPoll.name;
       document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
       document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
       document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
@@ -124,12 +139,17 @@ function loadPolls (result){
       
       conditionalDraw(voteCounter, data, options);
     }
+    ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
   
   }
 
 function updateChart(obj){
+  //Update userVotes to avoid multiple votes
+  ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
+  
   // Chart
    var result = JSON.parse(obj);
+   globalCurrentPoll = result.name;
    var voteOptions = result.options;
    var len = voteOptions.length;
     // Define the chart to be drawn.
@@ -167,6 +187,10 @@ function updateChart(obj){
   
 }
 
+function userInfo(data){
+  userVotes = JSON.parse(data).votes;
+}
+
 function openPoll(){
   var poll = this.getAttribute("poll");  
   
@@ -201,11 +225,22 @@ function openPoll(){
 
 function sendVote(){
   var value = document.getElementById("pollSelection").value;
-  if (value){
-    //lock the screen first
+  if(!voterCheck()){
     document.getElementById("mask").style.display = "block";
+    document.getElementById("displayBox").innerHTML = "Sorry! You have already voted! You can't vote twice!";
     document.getElementById("displayBox").style.display = "block";
-    ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
+    setTimeout(function(){
+    document.getElementById("mask").style.display = "none";
+    document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
+    document.getElementById("displayBox").style.display = "none";
+    }, 3000);
+  }else{
+      if (value){
+        //lock the screen first
+        document.getElementById("mask").style.display = "block";
+        document.getElementById("displayBox").style.display = "block";
+        ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
+      }
   }
 }
 
@@ -218,10 +253,21 @@ ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', appUrl + "/api/polls-array"
 //////////////Add your own option functions/////////////////
 //display addoption window
 function addOptionDisplay(){
-  var value = document.getElementById("pollSelection").value;  
-  if(value === "..."){
+  if(!voterCheck()){
     document.getElementById("mask").style.display = "block";
-    document.getElementById("newOption").style.display = "block";
+    document.getElementById("displayBox").innerHTML = "Sorry! You have already voted! You can't vote twice!";
+    document.getElementById("displayBox").style.display = "block";
+    setTimeout(function(){
+    document.getElementById("mask").style.display = "none";
+    document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
+    document.getElementById("displayBox").style.display = "none";
+    }, 3000);
+  }else{
+      var value = document.getElementById("pollSelection").value;  
+      if(value === "..."){
+        document.getElementById("mask").style.display = "block";
+        document.getElementById("newOption").style.display = "block";
+      }
   }
 }
 
@@ -237,26 +283,26 @@ document.getElementById("newOptionCancel").addEventListener('click', cancelOptio
 
 //Add new option
 function newOption(){
-  status = "new option";
-  var newOption = document.getElementById("newOptionValue").value;  
-  var poll = document.getElementById(pollID).getAttribute("poll"),
-      options = JSON.parse(poll).options;
-  var filtered = options.filter(function(value){return value.name.toLowerCase() === newOption.toLocaleLowerCase()});
-  
-  if(filtered.length >= 1){
-    document.getElementById("optionWarning").innerHTML = "This option already exists. Cancel or enter a new option!";
-  }else if(newOption === ""){
-    document.getElementById("optionWarning").innerHTML = "You have not entered any option!";
-  }
-  else{
-    newOption = newOption.slice(0, 1).toUpperCase() + newOption.slice(1);
-    document.getElementById("newOption").style.display = "none";
-    ajaxFunctions.ajaxRequest('POST', appUrl + "/api/newoption?pollid=" + pollID + "&option=" + newOption, updateChart);    
-    //document.getElementById("pollSelection").value = "";
-    document.getElementById("newOptionValue").value = "";
-    document.getElementById("optionWarning").innerHTML = "";
-    document.getElementById("mask").style.display = "none";
-  }  
+    status = "new option";
+    var newOption = document.getElementById("newOptionValue").value;  
+    var poll = document.getElementById(pollID).getAttribute("poll"),
+        options = JSON.parse(poll).options;
+    var filtered = options.filter(function(value){return value.name.toLowerCase() === newOption.toLocaleLowerCase()});
+    
+    if(filtered.length >= 1){
+      document.getElementById("optionWarning").innerHTML = "This option already exists. Cancel or enter a new option!";
+    }else if(newOption === ""){
+      document.getElementById("optionWarning").innerHTML = "You have not entered any option!";
+    }
+    else{
+      newOption = newOption.slice(0, 1).toUpperCase() + newOption.slice(1);
+      document.getElementById("newOption").style.display = "none";
+      ajaxFunctions.ajaxRequest('POST', appUrl + "/api/newoption?pollid=" + pollID + "&option=" + newOption, updateChart);    
+      //document.getElementById("pollSelection").value = "";
+      document.getElementById("newOptionValue").value = "";
+      document.getElementById("optionWarning").innerHTML = "";
+      document.getElementById("mask").style.display = "none";
+    }
 }
 document.getElementById("newOptionOk").addEventListener('click', newOption, false);
 

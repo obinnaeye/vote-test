@@ -86,6 +86,7 @@
         if(document.getElementById("newOptionOk")){
             document.getElementById("newOptionOk").addEventListener('click', newOption, false);
         }
+        console.log(sessionStorage);
     }
     
     function vote(){

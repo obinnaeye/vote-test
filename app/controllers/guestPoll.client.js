@@ -5,7 +5,7 @@
 //set the semi-global variables here
 var pollID = "";
 var pollClick = "";
-var status = "";
+var globalCurrentPoll = "";
 var globalPoll;
 
 var chartOptions = {
@@ -107,6 +107,7 @@ function loadPolls (result){
       len--;
     }
     
+    globalCurrentPoll = firstPoll.name;
     document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
     document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
     document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
@@ -118,7 +119,24 @@ function loadPolls (result){
   addEventToClass (pollClick)
   
   conditionalDraw(voteCounter, data, options);
+  if(!sessionStorage.getItem("userVotes")){
+    sessionStorage.setItem("userVotes", "[]");
+  }
   
+  }
+  
+  //check if user can vote for a poll
+  function voterCheck(){
+    var sessionVOtes = JSON.parse(sessionStorage.getItem("userVotes"));
+    var len = sessionVOtes.length ;
+    while (len){
+      var vote = sessionVOtes[len-1];
+      if(vote.pollName === globalCurrentPoll){
+        return false;
+      }
+      len--;
+    }
+    return true;
   }
   
   //show link box
@@ -138,6 +156,7 @@ function loadPolls (result){
 function updateChart(obj){
   // Chart
    var result = JSON.parse(obj);
+   globalCurrentPoll = result.name;
    var voteOptions = result.options;
    var len = voteOptions.length;
     // Define the chart to be drawn.
@@ -199,11 +218,26 @@ function openPoll(){
 
 function sendVote(){
   var value = document.getElementById("pollSelection").value;
-  if (value){
-    //lock the screen first
+  if(!voterCheck()){
     document.getElementById("mask").style.display = "block";
+    document.getElementById("displayBox").innerHTML = "Sorry! You have already voted! You can't vote twice!";
     document.getElementById("displayBox").style.display = "block";
-    ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
+    setTimeout(function(){
+    document.getElementById("mask").style.display = "none";
+    document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
+    document.getElementById("displayBox").style.display = "none";
+    }, 3000);
+  }else{
+    if (value){
+      //lock the screen first
+      document.getElementById("mask").style.display = "block";
+      document.getElementById("displayBox").style.display = "block";
+      var voteObj = {pollName: globalCurrentPoll},
+          oldSessionVotes = JSON.parse(sessionStorage.getItem("userVotes"));
+      oldSessionVotes.push(voteObj);
+      sessionStorage.setItem("userVotes", JSON.stringify(oldSessionVotes))
+      ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, updateChart)
+    }
   }
 }
 

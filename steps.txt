@@ -10,9 +10,11 @@ adding a new poll should flash a success message or error message
 check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 
 //deal with warning and ensure they are hidden when correct parameters are entered
-//handle lengths of text in display eg description title options
 
 
-//delete sesion once done
+
+//delete sesion once done using 
+//sessionStorage for guest voters
+//set userVotes in update for auth polls
 
 

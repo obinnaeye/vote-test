@@ -1,5 +1,5 @@
 'use strict';
-//var Users = require('../models/users.js');
+var Users = require('../models/users.js');
 var Polls = require('../models/polls.js');
 var path = process.cwd();
 
@@ -240,10 +240,20 @@ function PollHandler () {
      //add vote here
     this.addVote = function (req, res) {
         var voteID = req.query.voteid;
+        
         Polls.findOneAndUpdate({"options._id" : voteID}, {$inc : {"options.$.vote" : 1}}, { new: true }, function(err, doc){
             if(err){throw err}
+            if(req.isAuthenticated()){
+                var voter = req.user.github.username;
+                var obj = {pollName:doc.name, votedOption: ""};
+                Users.findOneAndUpdate({"github.username": voter}, {$push : {"votes": obj}}, 
+                    { new: true }, function(err, doc2){
+                        if(err){throw err}
+                        console.log(doc2.votes);
+                    });
+            }
             res.json(doc);
-        })
+        });
     };
     
     this.newOption = function (req, res) {
@@ -277,9 +287,9 @@ function PollHandler () {
             res.json(req.user);
         }
         else{
-            res.redirect("/guest/login")
+            res.json({username: "guest"});
         }
-    }
+    };
     
     this.viewProfile = function(req, res){
         if (req.isAuthenticated()){

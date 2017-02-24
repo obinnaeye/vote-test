@@ -27,7 +27,7 @@
     var sess = {
             secret: 'keyboard cat',
             resave: false,
-            saveUninitialized: true,
+            saveUninitialized: false,
             cookie: {},
             store: new MongoStore({ mongooseConnection: mongoose.connections[0] })
         }
@@ -38,14 +38,9 @@
         sess.cookie.maxAge = 1000 * 60 * 60 * 14; //14 days
     }
 
-    app.use(session(sess))
+    app.use(session(sess));
     
-    /**app.use(session({
-        secret: 'secretClementine',
-        resave: false,
-        saveUninitialized: true
-    }));**/
-
+    
     app.use(passport.initialize());
     app.use(passport.session());
     
