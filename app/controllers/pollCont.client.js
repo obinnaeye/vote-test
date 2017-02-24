@@ -327,7 +327,9 @@ document.getElementById("createPollCancel").addEventListener('click', cancelCrea
 
 //Reset globalPoll variable
 function updatePoll(data){
-  
+  document.getElementById("displayBox").style.display = "none";
+  document.getElementById("mask").style.display = "none";
+  document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
   var parsedData = JSON.parse(data);
   var stringData = JSON.stringify(parsedData, replacer);
   globalPoll.push(parsedData);
@@ -374,7 +376,8 @@ function addPoll(){
     
     //close create poll window
     document.getElementById("newPoll").style.display = "none";
-    document.getElementById("mask").style.display = "none";
+    document.getElementById("displayBox").innerHTML = "Adding your new poll . . .";
+    document.getElementById("displayBox").style.display = "block";
     document.getElementById("createInputName").value = "";
     document.getElementById("createInputDesc").value = "";
     document.getElementById("createInputOptions").value = "";

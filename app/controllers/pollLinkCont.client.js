@@ -2,6 +2,9 @@
     
     google.charts.setOnLoadCallback(loadPoll);
     
+    var userVotes,
+        globalCurrentPoll="";
+    
     var chartOptions = {
       'width':650,
       'chartArea':{width:'70%',height:'70%', left:"25%", top: 50},
@@ -49,6 +52,7 @@
         var pageHead = document.getElementsByTagName("head")[0];
         var pollStr = pageHead.getAttribute("poll");
         var pollObj = JSON.parse(pollStr, reviver);
+        globalCurrentPoll = pollObj.name;
         
         // Chart
        var voteOptions = pollObj.options;
@@ -86,21 +90,63 @@
         if(document.getElementById("newOptionOk")){
             document.getElementById("newOptionOk").addEventListener('click', newOption, false);
         }
-        console.log(sessionStorage);
+      ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
+    }
+    
+    function userInfo(data){
+      var authUserVotes = JSON.parse(data);
+      if (authUserVotes.votes){
+        userVotes = authUserVotes.votes;
+      }else{
+        if(!sessionStorage.getItem("linkUserVotes")){
+          sessionStorage.setItem("linkUserVotes", "[]");
+        }
+        userVotes = JSON.parse(sessionStorage.getItem("linkUserVotes"));
+      }
+    }
+    
+    function voterCheck(){
+      var len = userVotes.length;
+      while (len){
+        var vote = userVotes[len-1];
+        if(vote.pollName === globalCurrentPoll){
+          return false;
+        }
+        len--;
+      }
+      return true;
     }
     
     function vote(){
         var value = document.getElementById("pollSelection").value;
         //lock screen here
-        if(value){
-            document.getElementById("mask").style.display = "block";
-            document.getElementById("displayBox").style.display = "block";
-            ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, update)
+        if(!voterCheck()){
+          document.getElementById("mask").style.display = "block";
+          document.getElementById("displayBox").innerHTML = "Sorry! You have already voted! You can't vote twice!";
+          document.getElementById("displayBox").style.display = "block";
+          setTimeout(function(){
+          document.getElementById("mask").style.display = "none";
+          document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
+          document.getElementById("displayBox").style.display = "none";
+          }, 3000);
+        }else{
+          if(value){
+              document.getElementById("mask").style.display = "block";
+              document.getElementById("displayBox").style.display = "block";
+              ajaxFunctions.ajaxRequest('POST', appUrl + "/api/votes?voteid=" + value, update);
+          }
         }
     }
     
     
     function update(data){
+        //Update userVotes to avoid multiple votes
+        //Done here because update is only called when there is vote or new option vote
+        var voteObj = {pollName: globalCurrentPoll},
+              oldSessionVotes = JSON.parse(sessionStorage.getItem("linkUserVotes"));
+        oldSessionVotes.push(voteObj);
+        sessionStorage.setItem("linkUserVotes", JSON.stringify(oldSessionVotes));
+        ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
         //no need to create new poll string attribute in the head, the data is a string already
         //var newPollStr = JSON.stringify(data);
         var pageHead = document.getElementsByTagName("head")[0];

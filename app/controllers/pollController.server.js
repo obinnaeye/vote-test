@@ -9,7 +9,6 @@ function PollHandler () {
         
                 if (request.isAuthenticated()){
                     data.unshift({username : request.user.github.username});
-                    //console.log(request.user.github.username);
                     response.json(data);
                 }
                 else {
@@ -46,7 +45,6 @@ function PollHandler () {
     
         //populate the options to vote for
         function getOptions(data){
-            //console.log(typeof data);
                 var poll = data;
                 var innerHtml = "<option value='' disabled selected hidden>Select Whom to vote for...</option>";
                 options = poll.options;
@@ -249,7 +247,6 @@ function PollHandler () {
                 Users.findOneAndUpdate({"github.username": voter}, {$push : {"votes": obj}}, 
                     { new: true }, function(err, doc2){
                         if(err){throw err}
-                        console.log(doc2.votes);
                     });
             }
             res.json(doc);
@@ -293,7 +290,6 @@ function PollHandler () {
     
     this.viewProfile = function(req, res){
         if (req.isAuthenticated()){
-            //console.log(req.user.github.username);
             if (req.user.github.username === req.params.username){
                 res.sendFile(path + "/public/profile.html");
             }else{

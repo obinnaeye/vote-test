@@ -1,8 +1,3 @@
-Authenticate the api, and return user info to display on view
-If user, add user advantages, else send normal stuffs
-Routes that need special advantages are
-    poll ... add options, create poll, delete poll, logout, profile
-    home ... logout, new poll, my polls, profile
 
 show 404.html page when page does not exist (see pollLinkPage in pollController.server.js)
 
@@ -15,6 +10,7 @@ check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 
 //delete sesion once done using 
 //sessionStorage for guest voters
-//set userVotes in update for auth polls
+
+//add cluster again
 
 
