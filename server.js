@@ -1,4 +1,29 @@
 'use strict';
+
+var cluster = require("cluster");
+
+// Code to run if we're in a master process
+if (cluster.isMaster){
+    // Count the machine's CPUs
+    var cpuCount = require('os').cpus().length;
+
+    // Create a worker for each CPU
+    for (var i = 0; i < cpuCount; i += 1) {
+        cluster.fork();
+    }
+    
+    // Listen for dying workers
+cluster.on('exit', function (worker) {
+
+    // Replace the dead worker,
+    // we're not sentimental
+    console.log('Worker %d died :(', worker.id);
+    cluster.fork();
+
+});
+
+// Code to run if we're in a worker process
+}else{
     //load my env file
     require('dotenv').load();
     var express = require('express'),
@@ -45,15 +70,32 @@
     app.use(passport.session());
     
     //allow cross-domain access to the api
-    app.use(function(req, res, next) {
+    /*app.use(function(req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next();
+    });*/
+    
+    /*// custom 500 page see https://expressjs.com/en/guide/error-handling.html
+    app.use(function (err, req, res, next) {
+      console.error(err.stack);
+      res.status(500);
+      //you can also render custom html file
+      res.send('500: Internal Server Error. Please ensure you selected a file for upload before submitting.');
     });
+    
+    // custom 404 page, see https://expressjs.com/en/starter/faq.html
+    app.use(function (req, res, next) {
+      res.status(404);
+      //console.error(err);
+      //you can also render custom html file
+      res.send('404: Page not found!');
+    });*/
     
     routes(app, passport);
     
     
-app.listen(process.env.PORT, function(){
-    console.log("Your Connection Listening at port: ", process.env.PORT);
-});
+    app.listen(process.env.PORT, function(){
+        console.log("Your Connection Listening at port: ", process.env.PORT);
+    });
+}
