@@ -114,5 +114,22 @@ module.exports = function(app, passport){
         });
       })(req, res, next);
     });
+    
+    // custom 500 page see https://expressjs.com/en/guide/error-handling.html
+    app.use(function (err, req, res, next) {
+      console.error(err.stack);
+      res.status(500)
+      //you can also render custom html file
+      .send('500: Internal Server Error. The Team a VotingKing is working to fix your error if it persist after reload!');
+    });
+    
+    // custom 404 page, see https://expressjs.com/en/starter/faq.html
+    app.use(
+        pollHandler.error404
+      /*res.status(404)
+      //console.error(err);
+      //you can also render custom html file
+      .send('404: Page not found!');*/
+    );
 
 };

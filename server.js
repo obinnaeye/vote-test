@@ -24,6 +24,8 @@ cluster.on('exit', function (worker) {
 
 // Code to run if we're in a worker process
 }else{
+    var path = process.cwd();
+    var pollHandler = require( path + "/app/controllers/pollController.server.js");
     //load my env file
     require('dotenv').load();
     var express = require('express'),
@@ -76,24 +78,8 @@ cluster.on('exit', function (worker) {
       next();
     });*/
     
-    /*// custom 500 page see https://expressjs.com/en/guide/error-handling.html
-    app.use(function (err, req, res, next) {
-      console.error(err.stack);
-      res.status(500);
-      //you can also render custom html file
-      res.send('500: Internal Server Error. Please ensure you selected a file for upload before submitting.');
-    });
-    
-    // custom 404 page, see https://expressjs.com/en/starter/faq.html
-    app.use(function (req, res, next) {
-      res.status(404);
-      //console.error(err);
-      //you can also render custom html file
-      res.send('404: Page not found!');
-    });*/
     
     routes(app, passport);
-    
     
     app.listen(process.env.PORT, function(){
         console.log("Your Connection Listening at port: ", process.env.PORT);

@@ -7,9 +7,8 @@ check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 //deal with warning and ensure they are hidden when correct parameters are entered
 
 
-
+// deleting a poll should reset the userVote info
 //delete sesion once done using 
-//sessionStorage for guest voters
 
 //add cluster again
 

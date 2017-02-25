@@ -3,7 +3,7 @@ var Users = require('../models/users.js');
 var Polls = require('../models/polls.js');
 var path = process.cwd();
 
-function PollHandler () {
+function PollHandler() {
     
     function userCheck(request, response, data){
         
@@ -133,7 +133,7 @@ function PollHandler () {
                     '<script type="text/javascript" src="/controllers/sessionCont.client.js"></script>';
             
                     
-            //use function to populate the options.
+            
             
             fullPage = htmlOpen + head + scripts + header + bodyOpen + pollContainer + mask + bodyClose + htmlClose;
             
@@ -159,7 +159,7 @@ function PollHandler () {
         Polls.findOne({_id : pollId}).exec(function(err, result) {
             if (err){throw err}
             else{
-                if(!result){errorHandle("Sorry! The poll you are looking for does not exist or has been deleted.")}
+                if(!result){error404(req, res)}
                 else{pageLoader(result)}
             }
         })
@@ -319,6 +319,50 @@ function PollHandler () {
             }
         })
     };
+    
+    //handle error 404
+    
+    function error404(req, res){
+        var log, signUp;
+         //user or guest?
+        if (req.isAuthenticated()){
+                log = '<a ><button id="logout">Sign out</button></a>';
+                signUp = '<a href="/:username/profile"><button id="profile">Profile</button></a>';
+        }
+        else{
+                log = '<a href="/guest/login"><button id="login">Log In</button></a>';
+                signUp = '<a href="/guest/signup"><button id="singup">Sign Up</button></a>';
+        }
+        
+        
+            var fullPage = "";
+            var head = '<head ><title>Page Not Found</title>'+
+                    '<link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">'+
+                    '<link href="/public/css/main.css" rel="stylesheet" type="text/css">',
+                
+                htmlOpen = "<html>",
+                htmlClose = "</html>",
+                bodyOpen = "<body>",
+                bodyClose = '</body>',
+                header = '<div class="header">'+
+                         '<div class="header-inside">'+
+                         '<div class="title">'+
+                         '<img src="https://github.com/obinnaeye/images/blob/master/votebanner.png?raw=true"></div>'+
+                         '<div class="header-tools">'+
+                         '<a href="/"><button id="home">Home</button></a>'+
+                         '<a href="/:username/about"><button id="about">About</button></a>'+
+                         log +
+                         signUp +
+                         '<a href="/:username/polls"><button id="polls">Polls</button></a>'+
+                         '</div></div></div>',
+                errorPix = '<div class="error404"><img src="/public/img/404error.png"></div>';
+                
+            fullPage = htmlOpen + head + header + bodyOpen + errorPix +  bodyClose + htmlClose;
+                
+            res.status(404).send(fullPage);
+        
+    }
+    this.error404 = error404;
     
     
     

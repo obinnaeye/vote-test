@@ -476,3 +476,15 @@ select option:hover{
   height: 100px;
   margin: 0 auto;
 }
+
+/***************ERROR404********************/
+.error404{
+  width: 600px;
+  height: 400px;
+  margin: 100px auto;
+}
+
+.error404 img{
+  width: 600px;
+  height: 400px;
+}
