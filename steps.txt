@@ -11,5 +11,6 @@ check out http://jsfiddle.net/marsone/SpWwa/ for select background change
 //delete sesion once done using 
 
 //add cluster again
+//add page title and icon
 
 

@@ -85,7 +85,8 @@ function PollHandler() {
         function pageLoader(obj){
         var fullPage = "";
         var str = JSON.stringify(obj, replacer);
-        var head = '<head poll =' + str + '><title>'+ pollId +'</title>'+
+        var head = '<head poll =' + str + '><title>'+ "VotingKing | Poll-Link" +'</title>'+
+                    '<link rel="icon" type="image/x-icon" href="/public/img/favicon.png">'+
                     '<link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">'+
                     '<link href="/public/css/main.css" rel="stylesheet" type="text/css">'+
                     '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>'+
@@ -152,9 +153,9 @@ function PollHandler() {
             }
         }
         
-        function errorHandle(txt){
+        /*function errorHandle(txt){
             res.send(txt)
-        }
+        }*/
         
         Polls.findOne({_id : pollId}).exec(function(err, result) {
             if (err){throw err}
@@ -336,7 +337,8 @@ function PollHandler() {
         
         
             var fullPage = "";
-            var head = '<head ><title>Page Not Found</title>'+
+            var head = '<head ><title>VotingKing | Page Not Found</title>'+
+                    '<link rel="icon" type="image/x-icon" href="/public/img/favicon.png">'+
                     '<link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">'+
                     '<link href="/public/css/main.css" rel="stylesheet" type="text/css">',
                 
