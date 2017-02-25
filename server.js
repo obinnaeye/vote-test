@@ -37,7 +37,7 @@ cluster.on('exit', function (worker) {
     var MongoStore = require("connect-mongo")(session);
 
     
-    var MONGODB_URI=process.env.MONGO_URI;
+    var MONGODB_URI=process.env.MONGODB_URI;
     
     var app = express();
     
