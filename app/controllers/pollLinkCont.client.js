@@ -11,18 +11,6 @@
       'backgroundColor' : {fill: '#F2F3F4'},
       'colors':['#512E5F','#F5B041', '#641E16', '#F39C12', '#C39BD3', '#17202A', '#0B5345'],
       'height':400};
-    
-    //use replacer function to deal with spaces in stringify 
-    //to be used as poll attribute
-    function replacer(key, value) {
-        // Filtering out properties
-        if (typeof value === 'string') {
-            var arr = value.split(" ");
-            var str = arr.join("---");
-            return str;
-        }
-        return value;
-    }
      
     //use reviver to remove "---" added in stringify
     function reviver(key, value){
@@ -94,14 +82,16 @@
     }
     
     function userInfo(data){
-      var authUserVotes = JSON.parse(data);
-      if (authUserVotes.votes){
-        userVotes = authUserVotes.votes;
-      }else{
-        if(!sessionStorage.getItem("linkUserVotes")){
-          sessionStorage.setItem("linkUserVotes", "[]");
+      if(data !== undefined){
+        var authUserVotes = JSON.parse(data);
+        if (authUserVotes.votes){
+          userVotes = authUserVotes.votes;
+        }else{
+          if(!sessionStorage.getItem("linkUserVotes")){
+            sessionStorage.setItem("linkUserVotes", "[]");
+          }
+          userVotes = JSON.parse(sessionStorage.getItem("linkUserVotes"));
         }
-        userVotes = JSON.parse(sessionStorage.getItem("linkUserVotes"));
       }
     }
     
@@ -140,6 +130,7 @@
     
     
     function update(data){
+      if(data !== undefined){
         //Update userVotes to avoid multiple votes
         //Done here because update is only called when there is vote or new option vote
         var voteObj = {pollName: globalCurrentPoll},
@@ -169,6 +160,7 @@
         //Open screen here
         document.getElementById("displayBox").style.display = "none";
         document.getElementById("mask").style.display = "none";
+      }
     }
     
     //Add your own option function

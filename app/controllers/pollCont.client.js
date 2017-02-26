@@ -78,6 +78,7 @@ function conditionalDraw(counter, data, options){
 }
 
 function loadPolls (result){
+  if(result !== undefined){
     var poll = JSON.parse(result);
     if (poll){
       globalPoll = poll;
@@ -140,55 +141,60 @@ function loadPolls (result){
       conditionalDraw(voteCounter, data, options);
     }
     ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
-  
   }
+  
+}
 
 function updateChart(obj){
-  //Update userVotes to avoid multiple votes
-  ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
-  
-  // Chart
-   var result = JSON.parse(obj);
-   globalCurrentPoll = result.name;
-   var voteOptions = result.options;
-   var len = voteOptions.length;
-    // Define the chart to be drawn.
-   var data = new google.visualization.DataTable();    
-   data.addColumn('string', 'Name');
-   data.addColumn('number', 'Votes');   
-  
-  var voteCount = 0;
-    while (len){
-      var currentOption = voteOptions[len-1];
-      data.addRow([currentOption.name, currentOption.vote]);
-      
-      //check if there is any vote for the option
-      if (currentOption.vote > 0){voteCount++};
-      len--;
-    }
-  
-  var options = chartOptions; 
+  if(obj !== undefined){
+    //Update userVotes to avoid multiple votes
+    ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
     
+    // Chart
+     var result = JSON.parse(obj);
+     globalCurrentPoll = result.name;
+     var voteOptions = result.options;
+     var len = voteOptions.length;
+      // Define the chart to be drawn.
+     var data = new google.visualization.DataTable();    
+     data.addColumn('string', 'Name');
+     data.addColumn('number', 'Votes');   
+    
+    var voteCount = 0;
+      while (len){
+        var currentOption = voteOptions[len-1];
+        data.addRow([currentOption.name, currentOption.vote]);
+        
+        //check if there is any vote for the option
+        if (currentOption.vote > 0){voteCount++};
+        len--;
+      }
+    
+    var options = chartOptions; 
+      
+     
+   conditionalDraw(voteCount, data, options);
    
- conditionalDraw(voteCount, data, options);
- 
- //Open screen here
-  document.getElementById("displayBox").style.display = "none";
-  document.getElementById("mask").style.display = "none";
-  
-  //set the 'poll' attribute of the poll to the result of an Ajax call
-  //use the global status to check whether to click on poll
-  
-  document.getElementById(pollID).setAttribute("poll", obj);
-  if(status === "new option"){
-    document.getElementById(pollID).click();
-    status = "";
+   //Open screen here
+    document.getElementById("displayBox").style.display = "none";
+    document.getElementById("mask").style.display = "none";
+    
+    //set the 'poll' attribute of the poll to the result of an Ajax call
+    //use the global status to check whether to click on poll
+    
+    document.getElementById(pollID).setAttribute("poll", obj);
+    if(status === "new option"){
+      document.getElementById(pollID).click();
+      status = "";
+    }
   }
   
 }
 
 function userInfo(data){
-  userVotes = JSON.parse(data).votes;
+  if(data !== undefined){
+    userVotes = JSON.parse(data).votes;
+  }
 }
 
 function openPoll(){
@@ -327,19 +333,21 @@ document.getElementById("createPollCancel").addEventListener('click', cancelCrea
 
 //Reset globalPoll variable
 function updatePoll(data){
-  document.getElementById("displayBox").style.display = "none";
-  document.getElementById("mask").style.display = "none";
-  document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
-  var parsedData = JSON.parse(data);
-  var stringData = JSON.stringify(parsedData, replacer);
-  globalPoll.push(parsedData);
-  var newPollList = document.getElementById("poll-list").innerHTML;
-  newPollList += '<li class="poll-ref" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
-  
-  //document.getElementById("poll-list").appendChild(newPollList)
-  document.getElementById("poll-list").innerHTML = newPollList;
-  pollClick = document.getElementsByClassName("poll-ref");
-  addEventToClass (pollClick)
+  if(data !== undefined){
+    document.getElementById("displayBox").style.display = "none";
+    document.getElementById("mask").style.display = "none";
+    document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
+    var parsedData = JSON.parse(data);
+    var stringData = JSON.stringify(parsedData, replacer);
+    globalPoll.push(parsedData);
+    var newPollList = document.getElementById("poll-list").innerHTML;
+    newPollList += '<li class="poll-ref" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
+    
+    //document.getElementById("poll-list").appendChild(newPollList)
+    document.getElementById("poll-list").innerHTML = newPollList;
+    pollClick = document.getElementsByClassName("poll-ref");
+    addEventToClass (pollClick)
+  }
 }
 
 //add new poll to database
