@@ -88,6 +88,7 @@ function loadPolls (result){
     pollID = poll[0].username ? poll[1]._id : poll[0]._id;
     
     // Chart
+    console.log(google);
    var voteOptions = poll[0].options;
    var len = voteOptions.length;
    var data = new google.visualization.DataTable();    
