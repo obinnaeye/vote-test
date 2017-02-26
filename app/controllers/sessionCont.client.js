@@ -16,13 +16,13 @@
        if (loginButton){
           loginButton.addEventListener('click', function () {
               console.log(window.location);
-            ajaxFunctions.ajaxRequest('GET', appUrl + "/api/session?pathUrl=" + window.location.href, function(data){});
+            ajaxFunctions.ajaxRequest('GET', appUrl + "/api/session?pathUrl=" + window.location, function(data){});
           }, false);
        }
        
        if (logoutButton){
           logoutButton.addEventListener('click', function () {
-            ajaxFunctions.ajaxRequest('GET', appUrl + "/api/session?pathUrl=" + window.location.href, function(data){
+            ajaxFunctions.ajaxRequest('GET', appUrl + "/api/session?pathUrl=" + window.location, function(data){
                if(data === window.location.href){
                   window.location.href = appUrl + "/user/logout";
                }

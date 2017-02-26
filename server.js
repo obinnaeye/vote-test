@@ -24,8 +24,6 @@ cluster.on('exit', function (worker) {
 
 // Code to run if we're in a worker process
 }else{
-    var path = process.cwd();
-    var pollHandler = require( path + "/app/controllers/pollController.server.js");
     //load my env file
     require('dotenv').load();
     var express = require('express'),

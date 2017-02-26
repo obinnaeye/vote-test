@@ -88,10 +88,7 @@ function PollHandler() {
         var head = '<head poll =' + str + '><title>'+ "VotingKing | Poll-Link" +'</title>'+
                     '<link rel="icon" type="image/x-icon" href="/public/img/favicon.png">'+
                     '<link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Josefin+Slab|Khand|Marck+Script|Monoton|Poiret+One|Rajdhani|Special+Elite|VT323" rel="stylesheet">'+
-                    '<link href="/public/css/main.css" rel="stylesheet" type="text/css">'+
-                    '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>'+
-                    '<script type="text/javascript" src="/controllers/googleLoader.client.js"></script></head>',
-                    
+                    '<link href="/public/css/main.css" rel="stylesheet" type="text/css">',
             htmlOpen = "<html>",
             htmlClose = "</html>",
             bodyOpen = "<body>",
@@ -129,7 +126,9 @@ function PollHandler() {
                             '<input type="submit" value="Cancel" id="newOptionCancel"></div></div>'+
                             displayBox + '</div>',
             mask = '<div class="mask" id="mask" ></div>',
-            scripts = '<script type="text/javascript" src="/common/ajax-functions.js"></script>' +
+            scripts = '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>'+
+                    '<script type="text/javascript" src="/controllers/googleLoader.client.js"></script></head>'+
+                    '<script type="text/javascript" src="/common/ajax-functions.js"></script>' +
                     '<script type="text/javascript" src="/controllers/pollLinkCont.client.js"></script>'+
                     '<script type="text/javascript" src="/controllers/sessionCont.client.js"></script>';
             
