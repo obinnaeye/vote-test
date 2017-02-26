@@ -52,18 +52,19 @@ function addEventToClass (klass){
 
 //draw chart if there are vote, else display a message
 function conditionalDraw(counter, data, options){
+  // Instantiate and draw the chart.    
+   var chart = new google.visualization.PieChart(document.getElementById('chart'));
   if (counter === 0){
     document.getElementById('chart').innerHTML = "<div rel='no-chart'>This poll has no votes yet. Be the first to vote!</div>"
   }
   else{
     document.getElementById('chart').innerHTML = "";
-    // Instantiate and draw the chart.    
-   var chart = new google.visualization.PieChart(document.getElementById('chart'));
    chart.draw(data, options);
   }
 }
 
 function loadPolls (result){
+  var data = new google.visualization.DataTable();
   if(result !== undefined){
     var poll = JSON.parse(result);
     globalPoll = poll;
@@ -91,7 +92,6 @@ function loadPolls (result){
     console.log(google);
    var voteOptions = poll[0].options;
    var len = voteOptions.length;
-   var data = new google.visualization.DataTable();    
    data.addColumn('string', 'Name');
    data.addColumn('number', 'Votes');
     
