@@ -9,6 +9,7 @@ var status = "";
 var globalPoll;
 var userVotes;
 var globalCurrentPoll = "";
+var globalResult;
 
 var chartOptions = {
       'width':650,
@@ -17,7 +18,7 @@ var chartOptions = {
       'colors':['#512E5F','#F5B041', '#641E16', '#F39C12', '#C39BD3', '#17202A', '#0B5345'],
       'height':400};
 
-google.charts.setOnLoadCallback(loadPolls);
+google.charts.setOnLoadCallback(loadChart);
 google.charts.setOnLoadCallback(updateChart);
 
 
@@ -77,7 +78,8 @@ function conditionalDraw(counter, data, options){
   }
 }
 
-function loadPolls (result){
+function loadChart(){
+  var result = globalResult;
   if(result !== undefined){
     var poll = JSON.parse(result);
     if (poll){
@@ -142,6 +144,11 @@ function loadPolls (result){
     }
     ajaxFunctions.ajaxRequest("GET", appUrl+ "/api/userprofile", userInfo);
   }
+}
+
+function loadPolls (result){
+  
+  globalResult = result;
   
 }
 

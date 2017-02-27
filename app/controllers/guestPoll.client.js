@@ -2,15 +2,16 @@
 //var appUrl = window.location.origin;
 
 (function () {
+  var globalResult;
   
-  google.charts.setOnLoadCallback(loadPolls);
+  google.charts.setOnLoadCallback(loadChart);
   google.charts.setOnLoadCallback(updateChart);
   
 //set the semi-global variables here
 var pollID = "";
 var pollClick = "";
 var globalCurrentPoll = "";
-var globalPoll;
+var globalData;
 
 var chartOptions = {
       'width':650,
@@ -63,7 +64,9 @@ function conditionalDraw(counter, data, options){
   }
 }
 
-function loadPolls (result){
+function loadChart(){
+  var result = globalResult;
+  console.log(google);
   var data = new google.visualization.DataTable();
   if(result !== undefined){
     var poll = JSON.parse(result);
@@ -125,7 +128,10 @@ function loadPolls (result){
       sessionStorage.setItem("userVotes", "[]");
     }
   }
-  
+}
+
+function loadPolls (result){
+  globalResult = result;
   }
   
   //check if user can vote for a poll
@@ -157,6 +163,7 @@ function loadPolls (result){
   }
 
 function updateChart(obj){
+  globalData = obj;
   // Chart
   if(obj !== undefined){
    var result = JSON.parse(obj);
