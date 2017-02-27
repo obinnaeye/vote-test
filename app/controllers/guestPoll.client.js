@@ -66,7 +66,6 @@ function conditionalDraw(counter, data, options){
 
 function loadChart(){
   var result = globalResult;
-  console.log(google);
   var data = new google.visualization.DataTable();
   if(result !== undefined){
     var poll = JSON.parse(result);
@@ -92,7 +91,6 @@ function loadChart(){
     pollID = poll[0].username ? poll[1]._id : poll[0]._id;
     
     // Chart
-    console.log(google);
    var voteOptions = poll[0].options;
    var len = voteOptions.length;
    data.addColumn('string', 'Name');
