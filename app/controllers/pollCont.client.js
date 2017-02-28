@@ -129,9 +129,10 @@ function loadChart(){
       optionHtml += '<option value="...">Add Your Own Option</option>';
       
       globalCurrentPoll = firstPoll.name;
+      var title = firstPoll.name.length > 20? firstPoll.name.slice(0, 18) + "..." : firstPoll.name;
       document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
-      document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
-      document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
+      document.getElementById("pollViewHead").innerHTML = title + ':<span> by ' + firstPoll.author + '</span>';
+      document.getElementById("chartTitle").innerHTML = title + ': Pie Chart.';
       document.getElementById("pollSelection").innerHTML = optionHtml;
       document.getElementById("pollSelection").addEventListener('change', addOptionDisplay, false);
       document.getElementById("pollLink").addEventListener("click", showLink, false);
@@ -227,10 +228,11 @@ function openPoll(){
   
   //Add your own options if you desire
   optionHtml += '<option value="...">Add Your Own Option</option>';
+  var title = pollObj.name.length > 20? pollObj.name.slice(0, 18) + "..." : pollObj.name;
   
-  document.getElementById("pollViewHead").innerHTML = pollObj.name + ':<span> by ' + pollObj.author + '</span>';
+  document.getElementById("pollViewHead").innerHTML = title + ':<span> by ' + pollObj.author + '</span>';
   document.getElementById("pollViewDesc").innerHTML = pollObj.description;
-  document.getElementById("chartTitle").innerHTML = pollObj.name + ': Pie Chart.';
+  document.getElementById("chartTitle").innerHTML = title + ': Pie Chart.';
   document.getElementById("pollSelection").innerHTML = optionHtml;
   //update chart with updateChart function above
   updateChart(JSON.stringify(pollObj)); 

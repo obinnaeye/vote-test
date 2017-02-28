@@ -105,9 +105,10 @@ function PollHandler() {
                      '<a href="/:username/polls"><button id="polls">Polls</button></a>'+
                      '</div></div></div>',
             desc = obj.description,
-            pollName = obj.name,
+            shortTitle = obj.name.length > 20? obj.name.slice(0, 18) + "..." : obj.name,
+            pollName = shortTitle,
             author = obj.author,
-            title = obj.name + ": Pie Chart",
+            title = shortTitle + ": Pie Chart",
             displayBox = '<div class="display-box" id="displayBox" >Submitting vote . . .</div>',
             pollContainer = '<div class="poll-container"><div class="poll-main"><div class="poll-view vote-only">'+
                             '<div class="poll-view-head" id="pollViewHead">' + pollName + ': <span>by ' + author +  '</span></div>'+
@@ -326,7 +327,7 @@ function PollHandler() {
         var log, signUp;
          //user or guest?
         if (req.isAuthenticated()){
-                log = '<a ><button id="logout">Sign out</button></a>';
+                log = '<a href="/user/logout"><button id="logout">Sign out</button></a>';
                 signUp = '<a href="/:username/profile"><button id="profile">Profile</button></a>';
         }
         else{

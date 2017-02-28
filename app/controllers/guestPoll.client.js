@@ -69,7 +69,6 @@ function loadChart(){
   var data = new google.visualization.DataTable();
   if(result !== undefined){
     var poll = JSON.parse(result);
-    globalPoll = poll;
     var pollHtml = "";
     var optionHtml = '<option value="" disabled selected hidden>Select Whom to vote for...</option>';
     
@@ -111,9 +110,10 @@ function loadChart(){
     }
     
     globalCurrentPoll = firstPoll.name;
+    var title = firstPoll.name.length > 20? firstPoll.name.slice(0, 18) + "..." : firstPoll.name;
     document.getElementById("pollViewDesc").innerHTML = firstPoll.description;
-    document.getElementById("pollViewHead").innerHTML = firstPoll.name + ':<span> by ' + firstPoll.author + '</span>';
-    document.getElementById("chartTitle").innerHTML = firstPoll.name + ': Pie Chart.';
+    document.getElementById("pollViewHead").innerHTML = title + ':<span> by ' + firstPoll.author + '</span>';
+    document.getElementById("chartTitle").innerHTML = title + ': Pie Chart.';
     document.getElementById("pollSelection").innerHTML = optionHtml;
     document.getElementById("pollLink").addEventListener("click", showLink, false);
     document.getElementById("linkBoxClose").addEventListener("click", closeLink, false);
@@ -130,6 +130,7 @@ function loadChart(){
 
 function loadPolls (result){
   globalResult = result;
+  loadChart();
   }
   
   //check if user can vote for a poll
@@ -218,9 +219,10 @@ function openPoll(){
       len--;
     }
   
-  document.getElementById("pollViewHead").innerHTML = pollObj.name + ':<span> by ' + pollObj.author + '</span>';
+  var title = pollObj.name.length > 20? pollObj.name.slice(0, 18) + "..." : pollObj.name;
+  document.getElementById("pollViewHead").innerHTML = title + ' :<span> by ' + pollObj.author + '</span>';
   document.getElementById("pollViewDesc").innerHTML = pollObj.description;
-  document.getElementById("chartTitle").innerHTML = pollObj.name + ': Pie Chart.';
+  document.getElementById("chartTitle").innerHTML = title + ' : Pie Chart.';
   document.getElementById("pollSelection").innerHTML = optionHtml;
   //update chart with updateChart function above
   updateChart(JSON.stringify(pollObj)); 
@@ -256,9 +258,6 @@ var submitVote = document.getElementById("submitVote");
 submitVote.addEventListener('click', sendVote, false);
 
 ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', appUrl + "/api/polls-array", loadPolls));
-
-
-
 
 })();
 
