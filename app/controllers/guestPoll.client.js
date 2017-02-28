@@ -66,8 +66,10 @@ function conditionalDraw(counter, data, options){
 
 function loadChart(){
   var result = globalResult;
-  var data = new google.visualization.DataTable();
-  if(result !== undefined){
+  if(result === "[]" || result === undefined){
+    document.getElementById("poll-list").innerHTML = '<li class="poll-ref">Wao! No Polls here! Please Create One.</li>';
+  }else{
+    var data = new google.visualization.DataTable();
     var poll = JSON.parse(result);
     var pollHtml = "";
     var optionHtml = '<option value="" disabled selected hidden>Select Whom to vote for...</option>';

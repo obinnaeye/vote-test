@@ -22,8 +22,8 @@ google.charts.setOnLoadCallback(loadChart);
 google.charts.setOnLoadCallback(updateChart);
 
 
-//use replacer function to deal with spaces in stringify 
-  //to be used as poll attribute
+//use replacer function to deal with spaces in stringify
+//to be used as poll attribute
 function replacer(key, value) {
     // Filtering out properties
     if (typeof value === 'string') {
@@ -80,7 +80,9 @@ function conditionalDraw(counter, data, options){
 
 function loadChart(){
   var result = globalResult;
-  if(result !== undefined){
+  if(result === "[]" || result === undefined){
+    document.getElementById("poll-list").innerHTML = '<li class="poll-ref">Wao! No Polls here! Please Create One.</li>';
+  }else{
     var poll = JSON.parse(result);
     if (poll){
       globalPoll = poll;
