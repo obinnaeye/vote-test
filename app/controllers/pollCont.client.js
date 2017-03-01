@@ -344,7 +344,7 @@ document.getElementById("createPollCancel").addEventListener('click', cancelCrea
 
 //Reset globalPoll variable
 function updatePoll(data){
-  if(data !== undefined){
+  if(data !== undefined && data !== "[]"){
     document.getElementById("displayBox").style.display = "none";
     document.getElementById("mask").style.display = "none";
     document.getElementById("displayBox").innerHTML = "Submitting vote . . .";
@@ -353,6 +353,7 @@ function updatePoll(data){
     globalPoll.push(parsedData);
     var newPollList = document.getElementById("poll-list").innerHTML;
     pollClick = document.getElementsByClassName("poll-ref");
+    console.log(pollClick);
     
     if(pollClick.length === 0){
       newPollList = '<li class="poll-ref active" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
