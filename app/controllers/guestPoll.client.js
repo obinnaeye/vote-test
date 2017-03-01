@@ -135,19 +135,19 @@ function loadPolls (result){
   loadChart();
   }
   
-  //check if user can vote for a poll
-  function voterCheck(){
-    var sessionVOtes = JSON.parse(sessionStorage.getItem("userVotes"));
-    var len = sessionVOtes.length ;
-    while (len){
-      var vote = sessionVOtes[len-1];
-      if(vote.pollName === globalCurrentPoll){
-        return false;
-      }
-      len--;
+//check if user can vote for a poll
+function voterCheck(){
+  var sessionVOtes = JSON.parse(sessionStorage.getItem("userVotes"));
+  var len = sessionVOtes.length || 0;
+  while (len){
+    var vote = sessionVOtes[len-1];
+    if(vote.pollName === globalCurrentPoll){
+      return false;
     }
-    return true;
+    len--;
   }
+  return true;
+}
   
   //show link box
   function showLink(){

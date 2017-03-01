@@ -6,7 +6,7 @@
 var pollID = "";
 var pollClick = "";
 var status = "";
-var globalPoll;
+var globalPoll =[];
 var userVotes;
 var globalCurrentPoll = "";
 var globalResult;
@@ -35,7 +35,7 @@ function replacer(key, value) {
  }
  
 function voterCheck(){
-  var len = userVotes.length;
+  var len = userVotes.length || 0;
   while (len){
     var vote = userVotes[len-1];
     if(vote.pollName === globalCurrentPoll){
