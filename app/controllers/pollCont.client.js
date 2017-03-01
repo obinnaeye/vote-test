@@ -81,7 +81,7 @@ function conditionalDraw(counter, data, options){
 function loadChart(){
   var result = globalResult;
   if(result === "[]" || result === undefined){
-    document.getElementById("poll-list").innerHTML = '<li class="poll-ref">Wao! No Polls here! Please Create One.</li>';
+    document.getElementById("poll-list").innerHTML = '<li class="poll-ref default">Wao! No Polls here! Please Create One.</li>';
   }else{
     var poll = JSON.parse(result);
     if (poll){
@@ -353,9 +353,10 @@ function updatePoll(data){
     globalPoll.push(parsedData);
     var newPollList = document.getElementById("poll-list").innerHTML;
     pollClick = document.getElementsByClassName("poll-ref");
+    var pollDefaul = document.getElementsByClassName("poll-ref default");
     console.log(pollClick);
     
-    if(pollClick.length === 1){
+    if(pollDefaul.length === 1){
       newPollList = '<li class="poll-ref active" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
       //document.getElementById("poll-list").appendChild(newPollList)
       document.getElementById("poll-list").innerHTML = newPollList;
