@@ -352,12 +352,22 @@ function updatePoll(data){
     var stringData = JSON.stringify(parsedData, replacer);
     globalPoll.push(parsedData);
     var newPollList = document.getElementById("poll-list").innerHTML;
-    newPollList += '<li class="poll-ref" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
-    
-    //document.getElementById("poll-list").appendChild(newPollList)
-    document.getElementById("poll-list").innerHTML = newPollList;
     pollClick = document.getElementsByClassName("poll-ref");
-    addEventToClass (pollClick)
+    
+    if(pollClick.length === 0){
+      newPollList = '<li class="poll-ref active" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
+      //document.getElementById("poll-list").appendChild(newPollList)
+      document.getElementById("poll-list").innerHTML = newPollList;
+      addEventToClass (pollClick);
+      document.getElementsByClassName("poll-ref active")[0].click();
+    }else{
+      newPollList += '<li class="poll-ref" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
+    
+      document.getElementById("poll-list").innerHTML = newPollList;
+      addEventToClass (pollClick)
+    }
+    
+    
   }
 }
 
@@ -401,6 +411,7 @@ function addPoll(){
     document.getElementById("createInputDesc").value = "";
     document.getElementById("createInputOptions").value = "";
     warning.innerHTML ="";
+    
   } 
 }
 document.getElementById("createPollOk").addEventListener('click', addPoll, false);
