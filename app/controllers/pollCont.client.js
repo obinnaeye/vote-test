@@ -355,7 +355,7 @@ function updatePoll(data){
     pollClick = document.getElementsByClassName("poll-ref");
     console.log(pollClick);
     
-    if(pollClick.length === 0){
+    if(pollClick.length === 1){
       newPollList = '<li class="poll-ref active" id =' + parsedData._id + ' poll=' + stringData +' >' + parsedData.name + ':<span> by ' + parsedData.author + '</span></li>';
       //document.getElementById("poll-list").appendChild(newPollList)
       document.getElementById("poll-list").innerHTML = newPollList;
