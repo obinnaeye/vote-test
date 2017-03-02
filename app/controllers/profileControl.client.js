@@ -39,7 +39,8 @@
                 }
                 
             }else{
-                document.getElementById("profilePoll").innerHTML = 'No Polls - Click "Create Polls" to create a new poll.' 
+                document.getElementById("profilePoll").innerHTML = '<li class="profile-poll">'+
+                        '<span id="loading">No Polls - Go to "Polls" --> "Create Polls" to create a new poll.</span></li>'
             }
         }
     }
