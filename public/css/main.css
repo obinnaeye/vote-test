@@ -371,7 +371,7 @@ select option:hover{
   width: 550px;
   min-height: 30px;
   margin: 5px auto;
-  padding: 15px 10px 2px;
+  padding: 15px 10px;
   display: flex;
 }
 .profile-poll span{
